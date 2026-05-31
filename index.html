@@ -591,6 +591,10 @@ header::before{
 .profile-body>div{display:none;}
 .profile-body>div.active{display:block;}
 /* Menu toggle button — hidden on desktop */
+.expand-toggle{width:100%;text-align:left;padding:10px 14px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-mid);cursor:pointer;margin-bottom:8px;transition:all 0.15s;}
+.expand-toggle:hover{background:var(--augusta-pale);color:var(--augusta-deep);}
+.expand-toggle.open{background:var(--augusta);color:white;border-color:var(--augusta);}
+.expand-toggle.open span{opacity:0.7;}
 .mob-menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;margin-left:4px;}
 .mob-menu-toggle:active{background:rgba(255,255,255,0.1);}
 @media(max-width:768px){
@@ -981,54 +985,173 @@ header::before{
         <span class="section-label">Log a Round</span>
       </div>
       <div class="log-panel" style="margin-top:20px;">
-        <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:0 24px;">
-          <div>
-            <div class="form-group">
-              <label class="form-label">Course</label>
-              <div class="csearch-wrap">
-                <input class="form-input" id="fCourseSearch" type="text" placeholder="Search UK courses…" autocomplete="off">
-                <div class="csearch-dropdown" id="courseDropdown"></div>
-              </div>
-              <div id="selectedCourseDisplay" style="display:none">
-                <div class="selected-course"><span id="selectedCourseName"></span><button id="clearCourseBtn">✕</button></div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group"><label class="form-label">Date Played</label><input class="form-input" id="fDate" type="date"></div>
-              <div class="form-group"><label class="form-label">Holes Played</label>
-                <select class="form-input" id="fHoles">
-                  <option value="18">18 holes</option>
-                  <option value="9">9 holes</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group"><label class="form-label">Course Par</label><input class="form-input" id="fPar" type="number" value="72" min="27" max="80"></div>
-              <div class="form-group"><label class="form-label">Course Rating</label><input class="form-input" id="fRating" type="number" step="0.1" placeholder="e.g. 71.2"></div>
-            </div>
-            <div class="form-row">
-              <div class="form-group"><label class="form-label">Slope Rating</label><input class="form-input" id="fSlope" type="number" placeholder="e.g. 125"></div>
-              <div class="form-group"><label class="form-label">Total Score</label><input class="form-input" id="fTotal" type="number" placeholder="e.g. 84" min="18" max="150"></div>
-            </div>
+        <!-- Core fields -->
+        <div class="form-group">
+          <label class="form-label">Course</label>
+          <div class="csearch-wrap">
+            <input class="form-input" id="fCourseSearch" type="text" placeholder="Search UK courses…" autocomplete="off">
+            <div class="csearch-dropdown" id="courseDropdown"></div>
           </div>
-          <div>
-            <div class="holes-sep" style="margin-top:0;">optional stats</div>
-            <div class="form-row">
-              <div class="form-group"><label class="form-label">Putts</label><input class="form-input" id="fPutts" type="number" placeholder="e.g. 32" min="0" max="80"></div>
-              <div class="form-group"><label class="form-label">Fairways Hit</label><input class="form-input" id="fFairways" type="number" placeholder="e.g. 9" min="0" max="14"></div>
-            </div>
-            <div class="form-row">
-              <div class="form-group"><label class="form-label">Greens in Regulation</label><input class="form-input" id="fGIR" type="number" placeholder="e.g. 8" min="0" max="18"></div>
-              <div class="form-group"><label class="form-label">Penalties</label><input class="form-input" id="fPenalties" type="number" placeholder="e.g. 2" min="0" max="30"></div>
-            </div>
-            <div class="holes-sep">or enter hole by hole</div>
-            <div class="hole-lbl-row" id="holeLabels1"></div>
-            <div class="hole-grid" id="holesFront"></div>
-            <div class="hole-lbl-row" id="holeLabels2"></div>
-            <div class="hole-grid" id="holesBack"></div>
+          <div id="selectedCourseDisplay" style="display:none">
+            <div class="selected-course"><span id="selectedCourseName"></span><button id="clearCourseBtn">✕</button></div>
           </div>
         </div>
-        <button class="log-btn" id="submitBtn" style="margin-top:16px;">Record Round</button>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Date Played</label><input class="form-input" id="fDate" type="date"></div>
+          <div class="form-group"><label class="form-label">Holes Played</label>
+            <select class="form-input" id="fHoles">
+              <option value="18">18 holes</option>
+              <option value="9">9 holes</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Total Score</label><input class="form-input" id="fTotal" type="number" placeholder="e.g. 84" min="18" max="150"></div>
+        </div>
+
+        <!-- Expandable: Course details -->
+        <button type="button" class="expand-toggle" id="toggleCourseDetails" onclick="toggleExpand('courseDetailsPanel','toggleCourseDetails')">
+          ＋ Course Details <span style="font-weight:300;opacity:0.6;">(par, rating, slope — auto-filled when selecting a course)</span>
+        </button>
+        <div id="courseDetailsPanel" style="display:none;margin-bottom:12px;">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Course Par</label><input class="form-input" id="fPar" type="number" value="72" min="27" max="80"></div>
+            <div class="form-group"><label class="form-label">Course Rating</label><input class="form-input" id="fRating" type="number" step="0.1" placeholder="e.g. 71.2"></div>
+            <div class="form-group"><label class="form-label">Slope Rating</label><input class="form-input" id="fSlope" type="number" placeholder="e.g. 125"></div>
+          </div>
+        </div>
+
+        <!-- Expandable: Optional stats -->
+        <button type="button" class="expand-toggle" id="toggleOptStats" onclick="toggleExpand('optStatsPanel','toggleOptStats')">
+          ＋ Optional Stats <span style="font-weight:300;opacity:0.6;">(putts, fairways, GIR, penalties)</span>
+        </button>
+        <div id="optStatsPanel" style="display:none;margin-bottom:12px;">
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Putts</label>
+              <select class="form-input" id="fPutts">
+                <option value="">—</option>
+                <option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+<option value="32">32</option>
+<option value="33">33</option>
+<option value="34">34</option>
+<option value="35">35</option>
+<option value="36">36</option>
+<option value="37">37</option>
+<option value="38">38</option>
+<option value="39">39</option>
+<option value="40">40</option>
+<option value="41">41</option>
+<option value="42">42</option>
+<option value="43">43</option>
+<option value="44">44</option>
+<option value="45">45</option>
+<option value="46">46</option>
+<option value="47">47</option>
+<option value="48">48</option>
+<option value="49">49</option>
+<option value="50">50</option>
+<option value="51">51</option>
+<option value="52">52</option>
+<option value="53">53</option>
+<option value="54">54</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Fairways Hit</label>
+              <select class="form-input" id="fFairways">
+                <option value="">—</option>
+                <option value="0">0 / 14</option>
+<option value="1">1 / 14</option>
+<option value="2">2 / 14</option>
+<option value="3">3 / 14</option>
+<option value="4">4 / 14</option>
+<option value="5">5 / 14</option>
+<option value="6">6 / 14</option>
+<option value="7">7 / 14</option>
+<option value="8">8 / 14</option>
+<option value="9">9 / 14</option>
+<option value="10">10 / 14</option>
+<option value="11">11 / 14</option>
+<option value="12">12 / 14</option>
+<option value="13">13 / 14</option>
+<option value="14">14 / 14</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">GIR</label>
+              <select class="form-input" id="fGIR">
+                <option value="">—</option>
+                <option value="0">0 / 18</option>
+<option value="1">1 / 18</option>
+<option value="2">2 / 18</option>
+<option value="3">3 / 18</option>
+<option value="4">4 / 18</option>
+<option value="5">5 / 18</option>
+<option value="6">6 / 18</option>
+<option value="7">7 / 18</option>
+<option value="8">8 / 18</option>
+<option value="9">9 / 18</option>
+<option value="10">10 / 18</option>
+<option value="11">11 / 18</option>
+<option value="12">12 / 18</option>
+<option value="13">13 / 18</option>
+<option value="14">14 / 18</option>
+<option value="15">15 / 18</option>
+<option value="16">16 / 18</option>
+<option value="17">17 / 18</option>
+<option value="18">18 / 18</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Penalties</label>
+              <select class="form-input" id="fPenalties">
+                <option value="">—</option>
+                <option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expandable: Hole by hole -->
+        <button type="button" class="expand-toggle" id="toggleHoleByHole" onclick="toggleExpand('holeByHolePanel','toggleHoleByHole')">
+          ＋ Hole by Hole <span style="font-weight:300;opacity:0.6;">(auto-totals your score)</span>
+        </button>
+        <div id="holeByHolePanel" style="display:none;margin-bottom:12px;">
+          <div class="hole-lbl-row" id="holeLabels1"></div>
+          <div class="hole-grid" id="holesFront"></div>
+          <div class="hole-lbl-row" id="holeLabels2"></div>
+          <div class="hole-grid" id="holesBack"></div>
+        </div>
+
+        <button class="log-btn" id="submitBtn" style="margin-top:8px;">Record Round</button>
       </div>
     </div>
 
@@ -1833,6 +1956,7 @@ document.addEventListener('click',function(e){
   if(id==='createTourneyBtn'){createTourney();return;}
   var tc=e.target.closest('.tourney-card');
   if(tc&&tc.dataset.id){openTourney(tc.dataset.id,tc.dataset.name,tc.dataset.dates,tc.dataset.format);return;}
+  if(id==='submitBtn'){logRound();return;}
   if(id==='submitTourneyBtn'){submitTourneyScore();return;}
   // Hole by hole
   var hri=e.target.closest('.hbe-round-item');
@@ -1970,6 +2094,18 @@ async function doRegister(){
 }
 async function doSignOut(){ await sb.auth.signOut(); }
 
+// ── LOG FORM EXPANDERS ────────────────────────────────────────────────────
+function toggleExpand(panelId, btnId){
+  var panel=document.getElementById(panelId);
+  var btn=document.getElementById(btnId);
+  if(!panel) return;
+  var open=panel.style.display==='block';
+  panel.style.display=open?'none':'block';
+  if(btn) btn.classList.toggle('open',!open);
+  // Change ＋ to －
+  btn.innerHTML=btn.innerHTML.replace(open?'－':'＋', open?'＋':'－');
+}
+
 // ── LOG ROUND MODAL ───────────────────────────────────────────────────────
 function clearCourseSelection(){
   selCourse_=null;
@@ -2056,10 +2192,10 @@ async function logRound(){
   var diff=parseFloat(((total-rating)*113/slope).toFixed(1));
   var btn=document.getElementById('submitBtn');
   btn.innerHTML='<span class="spinner"></span>Saving…'; btn.disabled=true;
-  var putts=parseInt(document.getElementById('fPutts').value)||null;
-  var fairways=parseInt(document.getElementById('fFairways').value)||null;
-  var gir=parseInt(document.getElementById('fGIR').value)||null;
-  var penalties=parseInt(document.getElementById('fPenalties').value)||null;
+  var putts=document.getElementById('fPutts').value?parseInt(document.getElementById('fPutts').value):null;
+  var fairways=document.getElementById('fFairways').value?parseInt(document.getElementById('fFairways').value):null;
+  var gir=document.getElementById('fGIR').value?parseInt(document.getElementById('fGIR').value):null;
+  var penalties=document.getElementById('fPenalties').value?parseInt(document.getElementById('fPenalties').value):null;
   var r=await sb.from('rounds').insert({user_id:currentUser.id,course:selCourse_.name,date:date,par:par,score:total,rating:rating,slope:slope,diff:diff,holes_played:holes,putts:putts,fairways_hit:fairways,greens_in_regulation:gir,penalties:penalties}).select().single();
   btn.innerHTML='Record Round'; btn.disabled=false;
   if(r.error){toast('Error: '+r.error.message);return;}
@@ -2069,6 +2205,14 @@ async function logRound(){
   document.getElementById('fHoles').value='18';
   document.getElementById('fPar').value='72';
   ['fPutts','fFairways','fGIR','fPenalties'].forEach(function(id){document.getElementById(id).value='';});
+  for(var i=1;i<=18;i++){var el=document.getElementById('h'+i);if(el)el.value='';}
+  // Collapse optional panels
+  ['courseDetailsPanel','optStatsPanel','holeByHolePanel'].forEach(function(id){
+    var p=document.getElementById(id); if(p) p.style.display='none';
+  });
+  ['toggleCourseDetails','toggleOptStats','toggleHoleByHole'].forEach(function(id){
+    var b=document.getElementById(id); if(b){b.classList.remove('open');b.innerHTML=b.innerHTML.replace('－','＋');}
+  });;
   for(var i=1;i<=18;i++){var el=document.getElementById('h'+i);if(el)el.value='';}
   renderAll(); toast('Round recorded! ⛳');
 }
