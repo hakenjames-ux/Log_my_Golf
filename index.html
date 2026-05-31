@@ -1997,8 +1997,8 @@ document.addEventListener('click',function(e){
   if(fremove&&fremove.dataset.id){removeFavourite(fremove.dataset.id);return;}
   if(id==='homeClearBtn'){clearHomeCourse();return;}
   if(id==='clearCourseBtn'){clearCourseSelection();return;}
-  // Course search dropdown
-  var opt=e.target.closest('.csearch-opt');
+  // Course search dropdown (log form only — exclude profile/challenge dropdowns)
+  var opt=e.target.closest('#courseDropdown .csearch-opt');
   if(opt&&opt.dataset.idx){pickCourse(opt.dataset.idx);return;}
   if(!e.target.closest('.csearch-wrap')){
     var dd=document.getElementById('courseDropdown');
@@ -2212,8 +2212,7 @@ async function logRound(){
   });
   ['toggleCourseDetails','toggleOptStats','toggleHoleByHole'].forEach(function(id){
     var b=document.getElementById(id); if(b){b.classList.remove('open');b.innerHTML=b.innerHTML.replace('－','＋');}
-  });;
-  for(var i=1;i<=18;i++){var el=document.getElementById('h'+i);if(el)el.value='';}
+  });
   renderAll(); toast('Round recorded! ⛳');
 }
 async function deleteRound(id){
@@ -2572,6 +2571,42 @@ function renderAvgStats(){
       '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.6rem;font-weight:700;color:var(--augusta-deep);line-height:1;">'+(s.val!==null?s.val:'—')+'</div>'+
       '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-top:3px;">'+s.label+'</div>'+
       '<div style="font-size:0.68rem;color:var(--text-muted);font-weight:300;">'+s.unit+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function renderParBreakdown(){
+  var el=document.getElementById('parBreakdownCards');
+  if(!el) return;
+  if(!rounds.length){
+    el.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);font-style:italic;padding:20px;">No rounds logged yet.</div>';
+    return;
+  }
+  // Derive rough par-type performance from score vs par
+  // Group rounds into under par / level / over par buckets and show scoring trends
+  var under=rounds.filter(function(r){return r.score<r.par;});
+  var level=rounds.filter(function(r){return r.score===r.par;});
+  var over=rounds.filter(function(r){return r.score>r.par;});
+  function pct(n){return rounds.length?Math.round(n/rounds.length*100):0;}
+  function avgDiff(arr){
+    if(!arr.length) return null;
+    var s=arr.reduce(function(a,r){return a+(r.score-r.par);},0);
+    return Math.round(s/arr.length*10)/10;
+  }
+  var cards=[
+    {label:'Under Par Rounds',icon:'🟢',count:under.length,pct:pct(under.length),avg:avgDiff(under),color:'var(--under)'},
+    {label:'Level Par Rounds',icon:'🟡',count:level.length,pct:pct(level.length),avg:0,color:'var(--gold)'},
+    {label:'Over Par Rounds',icon:'🔴',count:over.length,pct:pct(over.length),avg:avgDiff(over),color:'var(--over)'}
+  ];
+  el.innerHTML=cards.map(function(c){
+    return '<div style="background:var(--panel);border-radius:var(--radius);padding:18px;text-align:center;">'+
+      '<div style="font-size:1.5rem;margin-bottom:8px;">'+c.icon+'</div>'+
+      '<div style="font-family:\'Cormorant Garamond\',serif;font-size:2.2rem;font-weight:700;color:var(--augusta-deep);line-height:1;">'+c.count+'</div>'+
+      '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;">'+c.label+'</div>'+
+      '<div style="margin-top:8px;height:4px;background:rgba(0,0,0,0.06);border-radius:2px;overflow:hidden;">'+
+        '<div style="height:100%;width:'+c.pct+'%;background:'+c.color+';border-radius:2px;transition:width 0.6s;"></div>'+
+      '</div>'+
+      '<div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">'+c.pct+'% of rounds'+(c.avg!==null&&c.count?' · avg '+( c.avg>0?'+':'')+c.avg+' vs par':'')+'</div>'+
     '</div>';
   }).join('');
 }
@@ -3226,7 +3261,7 @@ async function submitReview(){
     value:starRatings.value||null,difficulty:starRatings.difficulty||null,
     comment:document.getElementById('reviewComment').value.trim()||null
   };
-  var r=await sb.from('course_reviews').upsert(payload);
+  var r=await sb.from('course_reviews').upsert(payload,{onConflict:'user_id,course_id'});
   if(r.error){toast('Error: '+r.error.message);return;}
   toast('Review submitted ✓');
   closeReviewModal();
