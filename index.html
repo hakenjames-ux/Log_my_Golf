@@ -1967,6 +1967,10 @@ async function bootApp(u){
   await loadRounds();
   renderAll();
   initPhase8();
+  // Navigate to the section in the URL hash (or default to dashboard)
+  var startSection=location.hash.replace('#','').split('?')[0]||'dashboard';
+  showSection(startSection,null,true);
+  history.replaceState({section:startSection},'','#'+startSection);
 }
 
 function showAuthScreen(){
@@ -4098,12 +4102,22 @@ async function deleteAccount(){
 }
 
 // ── NAV & UTILS ───────────────────────────────────────────────────────────
-function showSection(s,btn){
-  ['dashboard','courses','leaderboard','stats','social','community','profile'].forEach(function(x){
+var SECTIONS=['dashboard','courses','leaderboard','stats','social','community','profile'];
+
+function showSection(s,btn,skipHistory){
+  if(SECTIONS.indexOf(s)===-1) s='dashboard';
+  SECTIONS.forEach(function(x){
     document.getElementById('section-'+x).style.display=x===s?'':'none';
   });
   document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
-  if(btn) btn.classList.add('active');
+  // Highlight matching nav button
+  if(btn){ btn.classList.add('active'); }
+  else {
+    var map={dashboard:'navDashboard',courses:'navCourses',leaderboard:'navLeaderboard',stats:'navStats',social:'navSocial',community:'navCommunity',profile:'navProfile'};
+    var nb=document.getElementById(map[s]); if(nb) nb.classList.add('active');
+  }
+  // Update URL hash
+  if(!skipHistory) history.pushState({section:s},'','#'+s);
   if(s==='leaderboard') loadLeaderboard();
   if(s==='courses') renderCoursesBrowser();
   if(s==='stats'){ loadRounds().then(function(){ renderStats(); }); }
@@ -4111,6 +4125,12 @@ function showSection(s,btn){
   if(s==='community') loadCommunity();
   if(s==='profile') loadProfile();
 }
+
+// Handle browser back / forward
+window.addEventListener('popstate',function(e){
+  var s=(e.state&&e.state.section)||location.hash.replace('#','').split('?')[0]||'dashboard';
+  showSection(s,null,true);
+});
 
 // ── GLOBAL SEARCH ─────────────────────────────────────────────────────────
 var gsDebounce=null;
