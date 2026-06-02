@@ -251,6 +251,9 @@ header::before{
   border-radius:var(--radius);transition:all 0.2s;
 }
 .sign-out-btn:hover{border-color:var(--gold);color:var(--gold);}
+.like-btn.liked{color:var(--over)!important;}
+#openLogModalBtn:hover{background:var(--augusta-mid);transform:translateY(-1px);box-shadow:0 6px 24px rgba(26,58,42,0.35);}
+.follow-btn.following{background:var(--augusta)!important;color:white!important;border-color:var(--augusta)!important;}
 .gs-trigger{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:7px 14px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.55);background:rgba(255,255,255,0.06);cursor:pointer;border-radius:var(--radius);transition:all 0.2s;}
 .gs-trigger:hover{border-color:rgba(201,168,76,0.5);color:rgba(201,168,76,0.9);background:rgba(201,168,76,0.08);}
 .gs-category{font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);padding:10px 20px 4px;border-top:1px solid var(--border);margin-top:4px;}
@@ -958,7 +961,6 @@ header::before{
       <button class="nav-item" id="navLeaderboard">Leaderboard</button>
       <button class="nav-item" id="navStats">Stats</button>
       <button class="nav-item" id="navSocial">Social</button>
-      <button class="nav-item" id="navCommunity">Community</button>
       <button class="nav-item" id="navProfile">Profile</button>
     </div>
     <div class="gold-rule"></div>
@@ -1007,180 +1009,13 @@ header::before{
       </div>
     </div>
 
-    <!-- Log a Round - full width -->
-    <div style="margin-bottom:24px;">
-      <div class="section-head" style="margin-bottom:0;">
-        <span class="section-label">Log a Round</span>
-      </div>
-      <div class="log-panel" style="margin-top:20px;">
-        <!-- Core fields -->
-        <div class="form-group">
-          <label class="form-label">Course</label>
-          <div class="csearch-wrap">
-            <input class="form-input" id="fCourseSearch" type="text" placeholder="Search UK courses…" autocomplete="off">
-            <div class="csearch-dropdown" id="courseDropdown"></div>
-          </div>
-          <div id="selectedCourseDisplay" style="display:none">
-            <div class="selected-course"><span id="selectedCourseName"></span><button id="clearCourseBtn">✕</button></div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Date Played</label><input class="form-input" id="fDate" type="date"></div>
-          <div class="form-group"><label class="form-label">Holes Played</label>
-            <select class="form-input" id="fHoles">
-              <option value="18">18 holes</option>
-              <option value="9">9 holes</option>
-            </select>
-          </div>
-          <div class="form-group"><label class="form-label">Total Score</label><input class="form-input" id="fTotal" type="number" placeholder="e.g. 84" min="18" max="150"></div>
-        </div>
-
-        <!-- Expandable: Course details -->
-        <button type="button" class="expand-toggle" id="toggleCourseDetails" onclick="toggleExpand('courseDetailsPanel','toggleCourseDetails')">
-          ＋ Course Details <span style="font-weight:300;opacity:0.6;">(par, rating, slope — auto-filled when selecting a course)</span>
-        </button>
-        <div id="courseDetailsPanel" style="display:none;margin-bottom:12px;">
-          <div class="form-row">
-            <div class="form-group"><label class="form-label">Course Par</label><input class="form-input" id="fPar" type="number" value="72" min="27" max="80"></div>
-            <div class="form-group"><label class="form-label">Course Rating</label><input class="form-input" id="fRating" type="number" step="0.1" placeholder="e.g. 71.2"></div>
-            <div class="form-group"><label class="form-label">Slope Rating</label><input class="form-input" id="fSlope" type="number" placeholder="e.g. 125"></div>
-          </div>
-        </div>
-
-        <!-- Expandable: Optional stats -->
-        <button type="button" class="expand-toggle" id="toggleOptStats" onclick="toggleExpand('optStatsPanel','toggleOptStats')">
-          ＋ Optional Stats <span style="font-weight:300;opacity:0.6;">(putts, fairways, GIR, penalties)</span>
-        </button>
-        <div id="optStatsPanel" style="display:none;margin-bottom:12px;">
-          <div class="form-row">
-            <div class="form-group"><label class="form-label">Putts</label>
-              <select class="form-input" id="fPutts">
-                <option value="">—</option>
-                <option value="18">18</option>
-<option value="19">19</option>
-<option value="20">20</option>
-<option value="21">21</option>
-<option value="22">22</option>
-<option value="23">23</option>
-<option value="24">24</option>
-<option value="25">25</option>
-<option value="26">26</option>
-<option value="27">27</option>
-<option value="28">28</option>
-<option value="29">29</option>
-<option value="30">30</option>
-<option value="31">31</option>
-<option value="32">32</option>
-<option value="33">33</option>
-<option value="34">34</option>
-<option value="35">35</option>
-<option value="36">36</option>
-<option value="37">37</option>
-<option value="38">38</option>
-<option value="39">39</option>
-<option value="40">40</option>
-<option value="41">41</option>
-<option value="42">42</option>
-<option value="43">43</option>
-<option value="44">44</option>
-<option value="45">45</option>
-<option value="46">46</option>
-<option value="47">47</option>
-<option value="48">48</option>
-<option value="49">49</option>
-<option value="50">50</option>
-<option value="51">51</option>
-<option value="52">52</option>
-<option value="53">53</option>
-<option value="54">54</option>
-              </select>
-            </div>
-            <div class="form-group"><label class="form-label">Fairways Hit</label>
-              <select class="form-input" id="fFairways">
-                <option value="">—</option>
-                <option value="0">0 / 14</option>
-<option value="1">1 / 14</option>
-<option value="2">2 / 14</option>
-<option value="3">3 / 14</option>
-<option value="4">4 / 14</option>
-<option value="5">5 / 14</option>
-<option value="6">6 / 14</option>
-<option value="7">7 / 14</option>
-<option value="8">8 / 14</option>
-<option value="9">9 / 14</option>
-<option value="10">10 / 14</option>
-<option value="11">11 / 14</option>
-<option value="12">12 / 14</option>
-<option value="13">13 / 14</option>
-<option value="14">14 / 14</option>
-              </select>
-            </div>
-            <div class="form-group"><label class="form-label">GIR</label>
-              <select class="form-input" id="fGIR">
-                <option value="">—</option>
-                <option value="0">0 / 18</option>
-<option value="1">1 / 18</option>
-<option value="2">2 / 18</option>
-<option value="3">3 / 18</option>
-<option value="4">4 / 18</option>
-<option value="5">5 / 18</option>
-<option value="6">6 / 18</option>
-<option value="7">7 / 18</option>
-<option value="8">8 / 18</option>
-<option value="9">9 / 18</option>
-<option value="10">10 / 18</option>
-<option value="11">11 / 18</option>
-<option value="12">12 / 18</option>
-<option value="13">13 / 18</option>
-<option value="14">14 / 18</option>
-<option value="15">15 / 18</option>
-<option value="16">16 / 18</option>
-<option value="17">17 / 18</option>
-<option value="18">18 / 18</option>
-              </select>
-            </div>
-            <div class="form-group"><label class="form-label">Penalties</label>
-              <select class="form-input" id="fPenalties">
-                <option value="">—</option>
-                <option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option>
-<option value="13">13</option>
-<option value="14">14</option>
-<option value="15">15</option>
-<option value="16">16</option>
-<option value="17">17</option>
-<option value="18">18</option>
-<option value="19">19</option>
-<option value="20">20</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Expandable: Hole by hole -->
-        <button type="button" class="expand-toggle" id="toggleHoleByHole" onclick="toggleExpand('holeByHolePanel','toggleHoleByHole')">
-          ＋ Hole by Hole <span style="font-weight:300;opacity:0.6;">(auto-totals your score)</span>
-        </button>
-        <div id="holeByHolePanel" style="display:none;margin-bottom:12px;">
-          <div class="hole-lbl-row" id="holeLabels1"></div>
-          <div class="hole-grid" id="holesFront"></div>
-          <div class="hole-lbl-row" id="holeLabels2"></div>
-          <div class="hole-grid" id="holesBack"></div>
-        </div>
-
-        <button class="log-btn" id="submitBtn" style="margin-top:8px;">Record Round</button>
-      </div>
+    <!-- Log a Round CTA -->
+    <div style="text-align:center;padding:32px 0 8px;">
+      <button id="openLogModalBtn" style="display:inline-flex;align-items:center;gap:10px;background:var(--augusta);color:white;border:none;border-radius:4px;padding:16px 36px;font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 18px rgba(26,58,42,0.25);transition:all 0.2s;">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Log a Round
+      </button>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);margin-top:10px;">Record today's round &amp; update your handicap</div>
     </div>
 
   </div><!-- /section-dashboard -->
@@ -1286,18 +1121,6 @@ header::before{
             <span class="section-count" id="achievementCount">0 earned</span>
           </div>
           <div id="achievementsList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;"></div>
-        </div>
-        <div class="panel" style="margin-bottom:24px;">
-          <div class="section-head" style="margin-bottom:16px;">
-            <span class="section-label">🏌️ My Bag</span>
-            <span class="section-count" id="bagCount">0 clubs</span>
-          </div>
-          <div id="bagGrid" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;min-height:32px;"></div>
-          <div style="display:flex;gap:8px;">
-            <input class="form-input" id="customClubInput" type="text" placeholder="e.g. Titleist TSR1 Driver…" style="flex:1;">
-            <button class="log-btn" id="addCustomClubBtn" style="width:auto;padding:11px 18px;white-space:nowrap;">Add Club</button>
-          </div>
-          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px;font-weight:300;">Click any club to remove it.</div>
         </div>
         <div class="panel" style="padding:0;overflow:hidden;">
           <div class="section-head" style="padding:18px 24px 14px;border-bottom:2px solid var(--border);margin-bottom:0;">
@@ -1474,28 +1297,12 @@ header::before{
     <canvas id="hcpHistoryChart" height="100"></canvas>
   </div>
 
-  <!-- Score breakdown + averages row -->
-  <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
-
-    <!-- Score breakdown donut -->
-    <div class="panel">
-      <div class="section-head" style="margin-bottom:20px;">
-        <span class="section-label">Score Breakdown</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:32px;">
-        <div style="width:180px;height:180px;flex-shrink:0;">
-          <canvas id="breakdownChart"></canvas>
-        </div>
-        <div id="breakdownLegend" style="flex:1;"></div>
-      </div>
-    </div>
-
-    <!-- Averages card -->
-    <div class="panel">
-      <div class="section-head" style="margin-bottom:20px;">
-        <span class="section-label">Round Averages</span>
-      </div>
-      <div id="avgStats" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;"></div>
+  <!-- Score breakdown -->
+  <div class="panel" style="margin-bottom:24px;">
+    <div class="section-head" style="margin-bottom:20px;"><span class="section-label">Score Breakdown</span></div>
+    <div style="display:flex;align-items:center;gap:40px;flex-wrap:wrap;">
+      <div style="width:180px;height:180px;flex-shrink:0;"><canvas id="breakdownChart"></canvas></div>
+      <div id="breakdownLegend" style="flex:1;min-width:160px;"></div>
     </div>
   </div>
 
@@ -1549,137 +1356,35 @@ header::before{
     </div>
   </div>
 
-  <!-- Par 3/4/5 Performance -->
-  <div class="panel chart-panel" style="margin-bottom:24px;">
-    <div class="section-head" style="margin-bottom:16px;"><span class="section-label">Par 3 / Par 4 / Par 5 Performance</span></div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" id="parBreakdownCards"></div>
-  </div>
 
 </div>
 
-<!-- COMMUNITY -->
-<div class="container" id="section-community" style="display:none">
+<!-- SOCIAL (unified — absorbs former Community section) -->
+<div class="container" id="section-social" style="display:none">
 
   <div class="courses-bar" style="margin-bottom:28px;">
-    <button class="filter-pill active" id="cmFeed">Activity Feed</button>
-    <button class="filter-pill" id="cmChallenges">Challenges</button>
-    <button class="filter-pill" id="cmTournaments">Tournaments</button>
-    <button class="filter-pill" id="cmCourseOfMonth">Course of Month</button>
-    <button class="filter-pill" id="cmMembers">Find Members</button>
+    <button class="filter-pill active" id="sfFeed">Feed</button>
+    <button class="filter-pill" id="sfMembers">Members</button>
+    <button class="filter-pill" id="sfSocieties">Societies</button>
+    <button class="filter-pill" id="sfCompete">Compete</button>
+    <button class="filter-pill" id="sfShare">Share</button>
   </div>
 
-  <!-- ACTIVITY FEED -->
-  <div id="cm-feed">
+  <!-- FEED -->
+  <div id="sf-feed">
     <div class="section-head" style="margin-bottom:18px;">
-      <span class="section-label">Recent Member Activity</span>
-      <button class="filter-pill" id="refreshFeedBtn">↻ Refresh</button>
+      <span class="section-label">Activity Feed</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="filter-pill active" id="feedFilterFollowing">Following</button>
+        <button class="filter-pill" id="feedFilterAll">Everyone</button>
+        <button class="filter-pill" id="refreshFeedBtn">↻</button>
+      </div>
     </div>
     <div id="feedList"></div>
   </div>
 
-  <!-- CHALLENGES -->
-  <div id="cm-challenges" style="display:none">
-    <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">
-      <div class="panel">
-        <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Issue a Challenge</span></div>
-        <div class="form-group"><label class="form-label">Opponent (search by name)</label>
-          <div class="csearch-wrap">
-            <input class="form-input" id="challengeOpponentSearch" type="text" placeholder="Search members…" autocomplete="off">
-            <div class="csearch-dropdown" id="challengeOpponentDropdown"></div>
-          </div>
-          <div id="challengeOpponentSelected" style="display:none;margin-top:8px;">
-            <div class="selected-course"><span id="challengeOpponentName"></span><button id="clearChallengeOpponent">✕</button></div>
-          </div>
-        </div>
-        <div class="form-group"><label class="form-label">Course</label>
-          <div class="csearch-wrap">
-            <input class="form-input" id="challengeCourseSearch" type="text" placeholder="Search courses…" autocomplete="off">
-            <div class="csearch-dropdown" id="challengeCourseDropdown"></div>
-          </div>
-          <div id="challengeCourseSelected" style="display:none;margin-top:8px;">
-            <div class="selected-course"><span id="challengeCourseName"></span><button id="clearChallengeCourse">✕</button></div>
-          </div>
-        </div>
-        <div class="form-group"><label class="form-label">Your Score to Beat</label>
-          <input class="form-input" id="challengeMyScore" type="number" placeholder="e.g. 82" min="50" max="150">
-        </div>
-        <div class="form-group"><label class="form-label">Format</label>
-          <select class="form-input" id="challengeFormat">
-            <option value="stroke">Stroke Play (lowest score wins)</option>
-            <option value="stableford">Stableford (most points wins)</option>
-          </select>
-        </div>
-        <button class="log-btn" id="issueChallengeBtn">Issue Challenge</button>
-      </div>
-      <div class="panel">
-        <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Incoming Challenges</span></div>
-        <div id="incomingChallengesList"><div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;">Loading…</div></div>
-        <div class="section-head" style="margin-bottom:12px;margin-top:20px;"><span class="section-label">My Challenges</span></div>
-        <div id="myChallengesList"><div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;">Loading…</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOURNAMENTS -->
-  <div id="cm-tournaments" style="display:none">
-    <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">
-      <div class="panel">
-        <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Create Tournament</span></div>
-        <div class="form-group"><label class="form-label">Tournament Name</label>
-          <input class="form-input" id="tourneyName" type="text" placeholder="e.g. Summer Medal 2026">
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Start Date</label><input class="form-input" id="tourneyStart" type="date"></div>
-          <div class="form-group"><label class="form-label">End Date</label><input class="form-input" id="tourneyEnd" type="date"></div>
-        </div>
-        <div class="form-group"><label class="form-label">Format</label>
-          <select class="form-input" id="tourneyFormat">
-            <option value="stroke">Stroke Play</option>
-            <option value="stableford">Stableford</option>
-            <option value="both">Both</option>
-          </select>
-        </div>
-        <button class="log-btn" id="createTourneyBtn">Create Tournament</button>
-      </div>
-      <div class="panel">
-        <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Active Tournaments</span></div>
-        <div id="activeTourneyList"><div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;">Loading…</div></div>
-      </div>
-    </div>
-    <div id="tourneyDetail" style="display:none">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-        <button onclick="closeTourneyDetail()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;">←</button>
-        <span class="section-label" id="tourneyDetailName"></span>
-        <span class="section-count" id="tourneyDetailDates"></span>
-      </div>
-      <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-        <div>
-          <div class="section-head" style="margin-bottom:16px;"><span class="section-label">Leaderboard</span></div>
-          <div class="lb-wrap"><div id="tourneyLbBody"></div></div>
-        </div>
-        <div class="panel">
-          <div class="section-head" style="margin-bottom:16px;"><span class="section-label">Submit Your Score</span></div>
-          <div class="form-group"><label class="form-label">Select Round</label>
-            <select class="form-input" id="tourneyRoundSelect"></select>
-          </div>
-          <button class="log-btn" id="submitTourneyBtn">Submit Score</button>
-          <div id="tourneyMyEntry" style="display:none;margin-top:14px;padding:12px;background:var(--panel);border-radius:var(--radius);font-size:0.85rem;"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- COURSE OF THE MONTH -->
-  <div id="cm-courseofmonth" style="display:none">
-    <div class="section-head" style="margin-bottom:20px;">
-      <span class="section-label">Course of the Month</span>
-      <span class="section-count" id="cotmMonthLabel"></span>
-    </div>
-    <div id="cotmContent"></div>
-  </div>
-
-  <!-- FIND MEMBERS -->
-  <div id="cm-members" style="display:none">
+  <!-- MEMBERS -->
+  <div id="sf-members" style="display:none">
     <div class="panel">
       <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Find Members</span></div>
       <input class="form-input" id="memberSearchInput" type="text" placeholder="Search by name…" autocomplete="off" style="margin-bottom:16px;">
@@ -1687,31 +1392,14 @@ header::before{
     </div>
   </div>
 
-</div>
-
-<!-- SOCIAL -->
-<div class="container" id="section-social" style="display:none">
-
-  <!-- Tab row inside Social -->
-  <div class="courses-bar" style="margin-bottom:28px;">
-    <button class="filter-pill active" id="stSocieties">Societies</button>
-    <button class="filter-pill" id="stMatchPlay">Match Play</button>
-    <button class="filter-pill" id="stMonthly">Monthly Medal</button>
-    <button class="filter-pill" id="stSharecard">Share a Round</button>
-  </div>
-
   <!-- SOCIETIES -->
-  <div id="sp-societies">
+  <div id="sf-societies" style="display:none">
     <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
-
-      <!-- Create society -->
       <div class="panel">
         <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Create a Society</span></div>
         <div class="form-group"><label class="form-label">Society Name</label><input class="form-input" id="newSocietyName" type="text" placeholder="e.g. Sunday Stableford Society"></div>
         <button class="log-btn" id="createSocietyBtn">Create Society</button>
       </div>
-
-      <!-- Join society -->
       <div class="panel">
         <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Join a Society</span></div>
         <div class="form-group"><label class="form-label">Invite Code</label><input class="form-input" id="joinCodeInput" type="text" placeholder="Enter 6-digit code" maxlength="6" style="letter-spacing:0.2em;text-transform:uppercase;font-family:'DM Mono',monospace;"></div>
@@ -1724,16 +1412,14 @@ header::before{
         <button class="log-btn" id="joinSocietyBtn" style="background:var(--earth);margin-top:0;">Join Society</button>
       </div>
     </div>
-
-    <!-- My societies list -->
     <div class="section-head" style="margin-bottom:18px;"><span class="section-label">My Societies</span></div>
     <div id="societiesList"><div style="color:var(--text-muted);font-style:italic;font-size:0.88rem;">Loading…</div></div>
   </div>
 
-  <!-- SOCIETY DETAIL (hidden until society selected) -->
+  <!-- SOCIETY DETAIL -->
   <div id="sp-society-detail" style="display:none">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
-      <button onclick="showSocialTab('stSocieties')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;">←</button>
+      <button onclick="showSocialTab('sfSocieties');document.getElementById('sp-society-detail').style.display='none';document.getElementById('sf-societies').style.display='';" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;">←</button>
       <span class="section-label" id="societyDetailName">Society</span>
       <span class="section-count" id="societyDetailCode" style="margin-left:auto;"></span>
       <button class="filter-pill" id="copySocietyCodeBtn">Copy Code</button>
@@ -1751,49 +1437,128 @@ header::before{
     </div>
   </div>
 
-  <!-- MATCH PLAY -->
-  <div id="sp-matchplay" style="display:none">
-    <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">
-      <div class="panel">
-        <div class="section-head" style="margin-bottom:18px;"><span class="section-label">New Match</span></div>
-        <div class="form-group"><label class="form-label">Opponent Name</label><input class="form-input" id="matchOpponent" type="text" placeholder="e.g. James"></div>
-        <div class="form-group"><label class="form-label">Course</label><input class="form-input" id="matchCourse" type="text" placeholder="e.g. St Andrews"></div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Date</label><input class="form-input" id="matchDate" type="date"></div>
-          <div class="form-group"><label class="form-label">Your Score</label><input class="form-input" id="matchMyScore" type="number" placeholder="e.g. 82"></div>
+  <!-- COMPETE (Challenges + Tournaments + Match Play) -->
+  <div id="sf-compete" style="display:none">
+    <div class="courses-bar" style="margin-bottom:20px;">
+      <button class="filter-pill active" id="scChallenges">Challenges</button>
+      <button class="filter-pill" id="scTournaments">Tournaments</button>
+      <button class="filter-pill" id="scMatchPlay">Match Play</button>
+    </div>
+
+    <!-- CHALLENGES -->
+    <div id="sc-challenges">
+      <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">
+        <div class="panel">
+          <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Issue a Challenge</span></div>
+          <div class="form-group"><label class="form-label">Opponent</label>
+            <div class="csearch-wrap">
+              <input class="form-input" id="challengeOpponentSearch" type="text" placeholder="Search members…" autocomplete="off">
+              <div class="csearch-dropdown" id="challengeOpponentDropdown"></div>
+            </div>
+            <div id="challengeOpponentSelected" style="display:none;margin-top:8px;">
+              <div class="selected-course"><span id="challengeOpponentName"></span><button id="clearChallengeOpponent">✕</button></div>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">Course</label>
+            <div class="csearch-wrap">
+              <input class="form-input" id="challengeCourseSearch" type="text" placeholder="Search courses…" autocomplete="off">
+              <div class="csearch-dropdown" id="challengeCourseDropdown"></div>
+            </div>
+            <div id="challengeCourseSelected" style="display:none;margin-top:8px;">
+              <div class="selected-course"><span id="challengeCourseName"></span><button id="clearChallengeCourse">✕</button></div>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">Score to Beat</label>
+            <input class="form-input" id="challengeMyScore" type="number" placeholder="e.g. 82" min="50" max="150">
+          </div>
+          <div class="form-group"><label class="form-label">Format</label>
+            <select class="form-input" id="challengeFormat">
+              <option value="stroke">Stroke Play</option>
+              <option value="stableford">Stableford</option>
+            </select>
+          </div>
+          <button class="log-btn" id="issueChallengeBtn">Issue Challenge</button>
         </div>
-        <div class="form-group"><label class="form-label">Opponent Score</label><input class="form-input" id="matchOppScore" type="number" placeholder="e.g. 78"></div>
-        <button class="log-btn" id="logMatchBtn">Log Match</button>
+        <div class="panel">
+          <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Incoming</span></div>
+          <div id="incomingChallengesList"><div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;">Loading…</div></div>
+          <div class="section-head" style="margin-bottom:12px;margin-top:20px;"><span class="section-label">My Challenges</span></div>
+          <div id="myChallengesList"><div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;">Loading…</div></div>
+        </div>
       </div>
-      <div class="panel">
-        <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Match Record</span></div>
-        <div id="matchSummary" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;text-align:center;">
-          <div style="background:var(--panel);border-radius:var(--radius);padding:14px;"><div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--augusta-deep);" id="matchWins">0</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);">Wins</div></div>
-          <div style="background:var(--panel);border-radius:var(--radius);padding:14px;"><div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--augusta-deep);" id="matchDraws">0</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);">Halved</div></div>
-          <div style="background:var(--panel);border-radius:var(--radius);padding:14px;"><div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--augusta-deep);" id="matchLosses">0</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);">Losses</div></div>
+    </div>
+
+    <!-- TOURNAMENTS -->
+    <div id="sc-tournaments" style="display:none">
+      <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">
+        <div class="panel">
+          <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Create Tournament</span></div>
+          <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="tourneyName" type="text" placeholder="e.g. Summer Medal 2026"></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Start Date</label><input class="form-input" id="tourneyStart" type="date"></div>
+            <div class="form-group"><label class="form-label">End Date</label><input class="form-input" id="tourneyEnd" type="date"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Format</label>
+            <select class="form-input" id="tourneyFormat">
+              <option value="stroke">Stroke Play</option>
+              <option value="stableford">Stableford</option>
+              <option value="both">Both</option>
+            </select>
+          </div>
+          <button class="log-btn" id="createTourneyBtn">Create Tournament</button>
         </div>
-        <div id="matchHistory" style="font-size:0.85rem;"></div>
+        <div class="panel">
+          <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Active Tournaments</span></div>
+          <div id="activeTourneyList"><div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;">Loading…</div></div>
+        </div>
+      </div>
+      <div id="tourneyDetail" style="display:none">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+          <button onclick="closeTourneyDetail()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;">←</button>
+          <span class="section-label" id="tourneyDetailName"></span>
+          <span class="section-count" id="tourneyDetailDates"></span>
+        </div>
+        <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+          <div><div class="section-head" style="margin-bottom:16px;"><span class="section-label">Leaderboard</span></div><div class="lb-wrap"><div id="tourneyLbBody"></div></div></div>
+          <div class="panel">
+            <div class="section-head" style="margin-bottom:16px;"><span class="section-label">Submit Your Score</span></div>
+            <div class="form-group"><label class="form-label">Select Round</label><select class="form-input" id="tourneyRoundSelect"></select></div>
+            <button class="log-btn" id="submitTourneyBtn">Submit Score</button>
+            <div id="tourneyMyEntry" style="display:none;margin-top:14px;padding:12px;background:var(--panel);border-radius:var(--radius);font-size:0.85rem;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATCH PLAY -->
+    <div id="sc-matchplay" style="display:none">
+      <div class="mob-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">
+        <div class="panel">
+          <div class="section-head" style="margin-bottom:18px;"><span class="section-label">New Match</span></div>
+          <div class="form-group"><label class="form-label">Opponent Name</label><input class="form-input" id="matchOpponent" type="text" placeholder="e.g. James"></div>
+          <div class="form-group"><label class="form-label">Course</label><input class="form-input" id="matchCourse" type="text" placeholder="e.g. St Andrews"></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Date</label><input class="form-input" id="matchDate" type="date"></div>
+            <div class="form-group"><label class="form-label">Your Score</label><input class="form-input" id="matchMyScore" type="number" placeholder="e.g. 82"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Opponent Score</label><input class="form-input" id="matchOppScore" type="number" placeholder="e.g. 78"></div>
+          <button class="log-btn" id="logMatchBtn">Log Match</button>
+        </div>
+        <div class="panel">
+          <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Match Record</span></div>
+          <div id="matchSummary" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;text-align:center;">
+            <div style="background:var(--panel);border-radius:var(--radius);padding:14px;"><div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--augusta-deep);" id="matchWins">0</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);">Wins</div></div>
+            <div style="background:var(--panel);border-radius:var(--radius);padding:14px;"><div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--augusta-deep);" id="matchDraws">0</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);">Halved</div></div>
+            <div style="background:var(--panel);border-radius:var(--radius);padding:14px;"><div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--augusta-deep);" id="matchLosses">0</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);">Losses</div></div>
+          </div>
+          <div id="matchHistory" style="font-size:0.85rem;"></div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- MONTHLY MEDAL -->
-  <div id="sp-monthly" style="display:none">
-    <div class="panel chart-panel" style="margin-bottom:24px;">
-      <div class="section-head" style="margin-bottom:16px;">
-        <span class="section-label">Monthly Medal</span>
-        <select class="form-input" id="medalYearSelect" style="width:100px;padding:6px 10px;font-size:0.82rem;"></select>
-      </div>
-      <div id="monthlyMedalGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;"></div>
-    </div>
-    <div class="panel">
-      <div class="section-head" style="margin-bottom:16px;"><span class="section-label">Season Standings</span><span class="section-count" id="seasonYear"></span></div>
-      <div id="seasonStandings"></div>
-    </div>
-  </div>
-
-  <!-- SHARE A ROUND -->
-  <div id="sp-sharecard" style="display:none">
+  <!-- SHARE -->
+  <div id="sf-share" style="display:none">
     <div style="display:grid;grid-template-columns:1fr 360px;gap:24px;">
       <div class="panel">
         <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Select a Round to Share</span></div>
@@ -1911,6 +1676,82 @@ header::before{
   </div>
 </div>
 
+<!-- LOG A ROUND MODAL -->
+<div class="modal-overlay" id="logRoundModal" style="display:none;align-items:flex-start;padding-top:40px;">
+  <div class="modal-box" style="max-width:560px;max-height:90vh;overflow-y:auto;">
+    <button class="modal-close" id="closeLogModalBtn">✕</button>
+    <div class="modal-title">⛳ Log a Round</div>
+    <div class="modal-sub">Record your round — your handicap will update automatically</div>
+
+    <div class="form-group">
+      <label class="form-label">Course</label>
+      <div class="csearch-wrap">
+        <input class="form-input" id="fCourseSearch" type="text" placeholder="Search UK courses…" autocomplete="off">
+        <div class="csearch-dropdown" id="courseDropdown"></div>
+      </div>
+      <div id="selectedCourseDisplay" style="display:none">
+        <div class="selected-course"><span id="selectedCourseName"></span><button id="clearCourseBtn">✕</button></div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Date Played</label><input class="form-input" id="fDate" type="date"></div>
+      <div class="form-group"><label class="form-label">Holes Played</label>
+        <select class="form-input" id="fHoles"><option value="18">18 holes</option><option value="9">9 holes</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Total Score</label><input class="form-input" id="fTotal" type="number" placeholder="e.g. 84" min="18" max="150"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">How did it go? <span style="font-weight:300;opacity:0.6;">(optional)</span></label>
+      <textarea class="form-input" id="fNotes" rows="2" placeholder="Conditions were great, hit the ball well on the back nine…" style="resize:vertical;"></textarea>
+    </div>
+
+    <button type="button" class="expand-toggle" id="toggleCourseDetails" onclick="toggleExpand('courseDetailsPanel','toggleCourseDetails')">
+      ＋ Course Details <span style="font-weight:300;opacity:0.6;">(par, rating, slope — auto-filled)</span>
+    </button>
+    <div id="courseDetailsPanel" style="display:none;margin-bottom:12px;">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Course Par</label><input class="form-input" id="fPar" type="number" value="72" min="27" max="80"></div>
+        <div class="form-group"><label class="form-label">Course Rating</label><input class="form-input" id="fRating" type="number" step="0.1" placeholder="e.g. 71.2"></div>
+        <div class="form-group"><label class="form-label">Slope Rating</label><input class="form-input" id="fSlope" type="number" placeholder="e.g. 125"></div>
+      </div>
+    </div>
+
+    <button type="button" class="expand-toggle" id="toggleOptStats" onclick="toggleExpand('optStatsPanel','toggleOptStats')">
+      ＋ Optional Stats <span style="font-weight:300;opacity:0.6;">(putts, fairways, GIR, penalties)</span>
+    </button>
+    <div id="optStatsPanel" style="display:none;margin-bottom:12px;">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Putts</label>
+          <select class="form-input" id="fPutts"><option value="">—</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Fairways Hit</label>
+          <select class="form-input" id="fFairways"><option value="">—</option><option value="0">0/14</option><option value="1">1/14</option><option value="2">2/14</option><option value="3">3/14</option><option value="4">4/14</option><option value="5">5/14</option><option value="6">6/14</option><option value="7">7/14</option><option value="8">8/14</option><option value="9">9/14</option><option value="10">10/14</option><option value="11">11/14</option><option value="12">12/14</option><option value="13">13/14</option><option value="14">14/14</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">GIR</label>
+          <select class="form-input" id="fGIR"><option value="">—</option><option value="0">0/18</option><option value="1">1/18</option><option value="2">2/18</option><option value="3">3/18</option><option value="4">4/18</option><option value="5">5/18</option><option value="6">6/18</option><option value="7">7/18</option><option value="8">8/18</option><option value="9">9/18</option><option value="10">10/18</option><option value="11">11/18</option><option value="12">12/18</option><option value="13">13/18</option><option value="14">14/18</option><option value="15">15/18</option><option value="16">16/18</option><option value="17">17/18</option><option value="18">18/18</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Penalties</label>
+          <select class="form-input" id="fPenalties"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option></select>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="expand-toggle" id="toggleHoleByHole" onclick="toggleExpand('holeByHolePanel','toggleHoleByHole')">
+      ＋ Hole by Hole <span style="font-weight:300;opacity:0.6;">(auto-totals your score)</span>
+    </button>
+    <div id="holeByHolePanel" style="display:none;margin-bottom:12px;">
+      <div class="hole-lbl-row" id="holeLabels1"></div>
+      <div class="hole-grid" id="holesFront"></div>
+      <div class="hole-lbl-row" id="holeLabels2"></div>
+      <div class="hole-grid" id="holesBack"></div>
+    </div>
+
+    <button class="log-btn" id="submitBtn" style="margin-top:12px;width:100%;">Record Round</button>
+  </div>
+</div>
+
 <!-- GLOBAL SEARCH OVERLAY -->
 <div id="globalSearchOverlay" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(10,26,18,0.82);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);">
   <div style="max-width:640px;margin:80px auto 0;padding:0 16px;">
@@ -1947,7 +1788,6 @@ header::before{
   <button class="mobile-menu-item" onclick="mobileMenuNav('leaderboard')"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span>Leaderboard</span></button>
   <button class="mobile-menu-item" onclick="mobileMenuNav('stats')"><svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg><span>Stats</span></button>
   <button class="mobile-menu-item" onclick="mobileMenuNav('social')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Social</span></button>
-  <button class="mobile-menu-item" onclick="mobileMenuNav('community')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Community</span></button>
   <button class="mobile-menu-item" onclick="mobileMenuNav('profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></button>
 </div>
 
@@ -1983,6 +1823,7 @@ async function bootApp(u){
   document.getElementById('fDate').valueAsDate=new Date();
   buildHoles();
   await loadRounds();
+  await loadFollowing();
   renderAll();
   initPhase8();
   // Navigate to the section in the URL hash (or default to dashboard)
@@ -2017,19 +1858,30 @@ document.addEventListener('click',function(e){
   if(id==='navLeaderboard'){showSection('leaderboard',e.target);return;}
   if(id==='navStats'){showSection('stats',e.target);return;}
   if(id==='navSocial'){showSection('social',e.target);return;}
-  if(id==='navCommunity'){showSection('community',e.target);return;}
   if(id==='navProfile'){showSection('profile',e.target);return;}
+  // Log modal
+  if(id==='openLogModalBtn'){openLogModal();return;}
+  if(id==='closeLogModalBtn'||e.target.id==='logRoundModal'){closeLogModal();return;}
   // Account settings
   if(id==='saveDisplayNameBtn'){saveDisplayName();return;}
   if(id==='changePasswordBtn'){changePassword();return;}
   if(id==='exportCsvBtn'){exportCsv();return;}
   if(id==='exportFullBtn'){exportFullProfile();return;}
   if(id==='deleteAccountBtn'){deleteAccount();return;}
-  // Social sub-tabs
-  if(id==='stSocieties'||id==='stMatchPlay'||id==='stMonthly'||id==='stSharecard'){showSocialTab(id);return;}
-  // Community sub-tabs
-  if(id==='cmFeed'||id==='cmChallenges'||id==='cmTournaments'||id==='cmCourseOfMonth'||id==='cmMembers'){showCommunityTab(id);return;}
+  // Unified social tabs
+  if(id==='sfFeed'||id==='sfMembers'||id==='sfSocieties'||id==='sfCompete'||id==='sfShare'){showSocialTab(id);return;}
+  // Compete sub-tabs
+  if(id==='scChallenges'||id==='scTournaments'||id==='scMatchPlay'){showCompeteTab(id);return;}
+  // Feed filter
+  if(id==='feedFilterFollowing'){setFeedFilter('following',e.target);return;}
+  if(id==='feedFilterAll'){setFeedFilter('all',e.target);return;}
   if(id==='refreshFeedBtn'){loadFeed();return;}
+  // Likes
+  var lb=e.target.closest('.like-btn');
+  if(lb&&lb.dataset.id){toggleLike(lb.dataset.id,lb);return;}
+  // Follow
+  var fb=e.target.closest('.follow-btn');
+  if(fb&&fb.dataset.id){toggleFollow(fb.dataset.id,fb);return;}
   if(id==='issueChallengeBtn'){issueChallenge();return;}
   if(id==='clearChallengeOpponent'){clearChallengeOpponent();return;}
   if(id==='clearChallengeCourse'){clearChallengeCourse();return;}
@@ -2042,19 +1894,6 @@ document.addEventListener('click',function(e){
   if(tc&&tc.dataset.id){openTourney(tc.dataset.id,tc.dataset.name,tc.dataset.dates,tc.dataset.format);return;}
   if(id==='submitBtn'){logRound();return;}
   if(id==='submitTourneyBtn'){submitTourneyScore();return;}
-  // Hole by hole
-  var hri=e.target.closest('.hbe-round-item');
-  if(hri&&hri.dataset.id){selectHbeRound(hri.dataset.id);return;}
-  if(id==='saveHoleScoresBtn'){saveHoleScores();return;}
-  // Driving
-  if(id==='saveDrivingBtn'){saveDrivingDistance();return;}
-  // Phase 8 tools
-  if(id==='setReminderBtn'){setTeeReminder();return;}
-  var rd=e.target.closest('.reminder-delete');
-  if(rd&&rd.dataset.id){deleteReminder(rd.dataset.id);return;}
-  if(id==='addCustomClubBtn'){addCustomClub();return;}
-  var bc=e.target.closest('.bag-club');
-  if(bc&&bc.dataset.club){toggleClub(bc.dataset.club);return;}
   // Societies
   if(id==='createSocietyBtn'){createSociety();return;}
   if(id==='joinSocietyBtn'){joinSociety();return;}
@@ -2280,7 +2119,8 @@ async function logRound(){
   var fairways=document.getElementById('fFairways').value?parseInt(document.getElementById('fFairways').value):null;
   var gir=document.getElementById('fGIR').value?parseInt(document.getElementById('fGIR').value):null;
   var penalties=document.getElementById('fPenalties').value?parseInt(document.getElementById('fPenalties').value):null;
-  var r=await sb.from('rounds').insert({user_id:currentUser.id,course:selCourse_.name,date:date,par:par,score:total,rating:rating,slope:slope,diff:diff,holes_played:holes,putts:putts,fairways_hit:fairways,greens_in_regulation:gir,penalties:penalties}).select().single();
+  var notes=document.getElementById('fNotes')?document.getElementById('fNotes').value.trim()||null:null;
+  var r=await sb.from('rounds').insert({user_id:currentUser.id,course:selCourse_.name,date:date,par:par,score:total,rating:rating,slope:slope,diff:diff,holes_played:holes,putts:putts,fairways_hit:fairways,greens_in_regulation:gir,penalties:penalties,notes:notes}).select().single();
   btn.innerHTML='Record Round'; btn.disabled=false;
   if(r.error){toast('Error: '+r.error.message);return;}
   rounds.push(r.data); rounds.sort(function(a,b){return a.date.localeCompare(b.date);});
@@ -2297,6 +2137,8 @@ async function logRound(){
   ['toggleCourseDetails','toggleOptStats','toggleHoleByHole'].forEach(function(id){
     var b=document.getElementById(id); if(b){b.classList.remove('open');b.innerHTML=b.innerHTML.replace('－','＋');}
   });
+  if(document.getElementById('fNotes')) document.getElementById('fNotes').value='';
+  closeLogModal();
   renderAll(); toast('Round recorded! ⛳');
 }
 async function deleteRound(id){
@@ -2575,9 +2417,7 @@ function renderStats(){
   setTimeout(function(){
     renderHcpHistory();
     renderBreakdown();
-    renderAvgStats();
     renderStatTrend('putts');
-    renderParBreakdown();
   }, 50);
 }
 
@@ -2908,7 +2748,7 @@ async function loadProfile(){
   // Load profile from DB
   var pr=await sb.from('profiles').select('*').eq('id',currentUser.id).single();
   if(!pr.error&&pr.data) profileData=pr.data;
-  else profileData={id:currentUser.id,is_public:false,home_course_name:null,home_course_id:null};
+  else profileData={id:currentUser.id,is_public:true,home_course_name:null,home_course_id:null};
   // Avatar
   setAvatar(profileData.avatar_url||null);
   initAvatarUpload();
@@ -3069,25 +2909,34 @@ async function removeFavourite(id){
 var societies=[], currentSociety=null, matches=[], selectedShareRound=null;
 
 function showSocialTab(tabId){
-  var tabs=['stSocieties','stMatchPlay','stMonthly','stSharecard'];
-  var panels={'stSocieties':'sp-societies','stMatchPlay':'sp-matchplay','stMonthly':'sp-monthly','stSharecard':'sp-sharecard'};
+  var tabs=['sfFeed','sfMembers','sfSocieties','sfCompete','sfShare'];
+  var panels={sfFeed:'sf-feed',sfMembers:'sf-members',sfSocieties:'sf-societies',sfCompete:'sf-compete',sfShare:'sf-share'};
   tabs.forEach(function(t){
     document.getElementById(t).classList.toggle('active',t===tabId);
     document.getElementById(panels[t]).style.display=t===tabId?'':'none';
   });
   document.getElementById('sp-society-detail').style.display='none';
-  if(tabId==='stMonthly') renderMonthlyMedal();
-  if(tabId==='stSharecard') renderShareRoundList();
+  if(tabId==='sfFeed') loadFeed();
+  if(tabId==='sfMembers') initMemberSearch();
+  if(tabId==='sfSocieties') loadSocieties();
+  if(tabId==='sfCompete'){ loadChallenges(); showCompeteTab('scChallenges'); }
+  if(tabId==='sfShare') renderShareRoundList();
+}
+
+function showCompeteTab(tabId){
+  var tabs=['scChallenges','scTournaments','scMatchPlay'];
+  var panels={scChallenges:'sc-challenges',scTournaments:'sc-tournaments',scMatchPlay:'sc-matchplay'};
+  tabs.forEach(function(t){
+    document.getElementById(t).classList.toggle('active',t===tabId);
+    document.getElementById(panels[t]).style.display=t===tabId?'':'none';
+  });
+  if(tabId==='scTournaments') loadTournaments();
+  if(tabId==='scMatchPlay'){ loadMatches().then(renderMatchSummary); document.getElementById('matchDate').valueAsDate=new Date(); }
 }
 
 async function loadSocial(){
-  showSocialTab('stSocieties');
   if(!rounds.length) await loadRounds();
-  initMedalYearSelect();
-  await loadSocieties();
-  await loadMatches();
-  renderMatchSummary();
-  document.getElementById('matchDate').valueAsDate=new Date();
+  showSocialTab('sfFeed');
 }
 
 // ── SOCIETIES ─────────────────────────────────────────────────────────────
@@ -3158,7 +3007,7 @@ async function sendEmailInvite(){
 
 async function openSociety(id,name,code){
   currentSociety={id:id,name:name,invite_code:code};
-  document.getElementById('sp-societies').style.display='none';
+  document.getElementById('sf-societies').style.display='none';
   document.getElementById('sp-society-detail').style.display='block';
   document.getElementById('societyDetailName').textContent=name;
   document.getElementById('societyDetailCode').textContent='Code: '+code;
@@ -3200,7 +3049,7 @@ async function leaveSociety(){
   await sb.from('society_members').delete().eq('society_id',currentSociety.id).eq('user_id',currentUser.id);
   currentSociety=null;
   document.getElementById('sp-society-detail').style.display='none';
-  document.getElementById('sp-societies').style.display='';
+  document.getElementById('sf-societies').style.display='';
   toast('Left society.');
   await loadSocieties();
 }
@@ -3610,7 +3459,7 @@ function closeMobileMenu(){
 
 function mobileMenuNav(section){
   closeMobileMenu();
-  var desktopMap={dashboard:'navDashboard',courses:'navCourses',leaderboard:'navLeaderboard',stats:'navStats',social:'navSocial',community:'navCommunity',profile:'navProfile'};
+  var desktopMap={dashboard:'navDashboard',courses:'navCourses',leaderboard:'navLeaderboard',stats:'navStats',social:'navSocial',profile:'navProfile'};
   showSection(section,document.getElementById(desktopMap[section]));
   var bottomMap={dashboard:'mNavDashboard',courses:'mNavCourses',stats:'mNavStats',profile:'mNavProfile'};
   document.querySelectorAll('.mobile-nav-btn').forEach(function(b){b.classList.remove('active');});
@@ -3701,52 +3550,81 @@ function exportStatsPDF(){
 // ── PHASE 7: COMMUNITY ────────────────────────────────────────────────────
 var challengeOpponent_=null, challengeCourse_=null, currentTourney_=null, memberSearchTimer=null, challengeCourseTimer=null;
 
-function showCommunityTab(tabId){
-  var tabs=['cmFeed','cmChallenges','cmTournaments','cmCourseOfMonth','cmMembers'];
-  var panels={cmFeed:'cm-feed',cmChallenges:'cm-challenges',cmTournaments:'cm-tournaments',cmCourseOfMonth:'cm-courseofmonth',cmMembers:'cm-members'};
-  tabs.forEach(function(t){
-    document.getElementById(t).classList.toggle('active',t===tabId);
-    document.getElementById(panels[t]).style.display=t===tabId?'':'none';
-  });
-  if(tabId==='cmFeed') loadFeed();
-  if(tabId==='cmChallenges') loadChallenges();
-  if(tabId==='cmTournaments') loadTournaments();
-  if(tabId==='cmCourseOfMonth') loadCourseOfMonth();
-  if(tabId==='cmMembers') initMemberSearch();
-}
-
-async function loadCommunity(){
-  showCommunityTab('cmFeed');
-  if(!rounds.length) await loadRounds();
-}
 
 // ── ACTIVITY FEED ─────────────────────────────────────────────────────────
 async function loadFeed(){
   var el=document.getElementById('feedList');
   el.innerHTML='<div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;padding:20px 0;">Loading…</div>';
-  // Get last 50 rounds from all users
-  var r=await sb.from('rounds').select('user_id,course,score,par,diff,date,holes_played').order('date',{ascending:false}).limit(50);
-  if(r.error||!r.data||!r.data.length){el.innerHTML='<div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;padding:20px 0;">No activity yet.</div>';return;}
-  // Get display names
+
+  var query=sb.from('rounds').select('id,user_id,course,score,par,diff,date,holes_played,notes').order('date',{ascending:false}).limit(50);
+
+  // Following filter
+  if(feedFilter==='following'){
+    var uidsToShow=Array.from(followingSet);
+    uidsToShow.push(currentUser.id); // always show own rounds
+    if(uidsToShow.length===1&&followingSet.size===0){
+      el.innerHTML='<div style="padding:32px;text-align:center;">'+
+        '<div style="font-size:1.5rem;margin-bottom:12px;">👋</div>'+
+        '<div style="font-weight:600;color:var(--augusta-deep);margin-bottom:8px;">Follow some members to see their rounds here</div>'+
+        '<div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:20px;">Head to Members to find people to follow</div>'+
+        '<button class="log-btn" onclick="showSocialTab(\'sfMembers\')" style="width:auto;padding:10px 24px;">Find Members</button>'+
+      '</div>';
+      return;
+    }
+    query=query.in('user_id',uidsToShow);
+  }
+
+  var r=await query;
+  if(r.error||!r.data||!r.data.length){
+    el.innerHTML='<div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;padding:20px 0;">'+(feedFilter==='following'?'No rounds yet from people you follow.':'No activity yet.')+'</div>';
+    return;
+  }
+
+  // Get profiles (avatar + name)
   var uids=[...new Set(r.data.map(function(x){return x.user_id;}))];
-  var names={};
-  var pr=await sb.from('profiles').select('id,display_name').in('id',uids);
-  if(pr.data) pr.data.forEach(function(p){names[p.id]=p.display_name;});
+  var profiles={};
+  var pr=await sb.from('profiles').select('id,display_name,avatar_url').in('id',uids);
+  if(pr.data) pr.data.forEach(function(p){profiles[p.id]=p;});
+
+  // Get like counts
+  var roundIds=r.data.map(function(x){return x.id;});
+  var likeCounts={};
+  var lc=await sb.from('round_likes').select('round_id').in('round_id',roundIds);
+  (lc.data||[]).forEach(function(l){ likeCounts[l.round_id]=(likeCounts[l.round_id]||0)+1; });
+  await loadLikes(roundIds);
+
   el.innerHTML=r.data.map(function(round){
-    var name=names[round.user_id]||(round.user_id===currentUser.id?((currentUser.user_metadata&&currentUser.user_metadata.display_name)||'You'):'Golfer');
-    var initial=name.charAt(0).toUpperCase();
+    var prof=profiles[round.user_id]||{};
+    var name=prof.display_name||(round.user_id===currentUser.id?((currentUser.user_metadata&&currentUser.user_metadata.display_name)||'You'):'Golfer');
+    var init=name.charAt(0).toUpperCase();
+    var isYou=round.user_id===currentUser.id;
     var ov=round.score-round.par,ovS=ov===0?'E':(ov>0?'+'+ov:''+ov);
     var ovCol=ov<0?'var(--under)':ov>0?'var(--over)':'var(--gold)';
-    var isYou=round.user_id===currentUser.id;
-    return '<div class="feed-item">'+
-      '<div class="feed-avatar">'+initial+'</div>'+
-      '<div class="feed-body">'+
-        '<div class="feed-name">'+name+(isYou?' <span style="font-size:0.65rem;color:var(--gold);font-family:\'Barlow Condensed\',sans-serif;font-weight:600;letter-spacing:0.1em;">(you)</span>':'')+'</div>'+
-        '<div class="feed-detail">⛳ '+round.course+' · '+fDate(round.date)+(round.holes_played===9?' · 9 holes':'')+'</div>'+
+    var lc=likeCounts[round.id]||0;
+    var isLiked=likedRounds.has(round.id);
+    var avatarHtml=prof.avatar_url
+      ?'<img src="'+prof.avatar_url+'" style="width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.display=\'none\'">'
+      :'<div class="feed-avatar">'+init+'</div>';
+    var followBtn=(!isYou)?'<button class="follow-btn'+(followingSet.has(round.user_id)?' following':'')+'" data-id="'+round.user_id+'" style="font-family:\'Barlow Condensed\',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:2px;cursor:pointer;border:1px solid var(--border);background:var(--panel);color:var(--text-mid);transition:all 0.15s;">'+(followingSet.has(round.user_id)?'Following':'Follow')+'</button>':'';
+    return '<div class="feed-item" style="flex-direction:column;align-items:stretch;gap:0;padding:0;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:12px;overflow:hidden;">'+
+      '<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;">'+
+        avatarHtml+
+        '<div style="flex:1;">'+
+          '<div style="display:flex;align-items:center;gap:8px;">'+
+            '<span class="feed-name">'+name+(isYou?' <span style="font-size:0.62rem;color:var(--gold);">(you)</span>':'')+'</span>'+
+            followBtn+
+          '</div>'+
+          '<div class="feed-detail">⛳ '+round.course+' · '+fDate(round.date)+(round.holes_played===9?' · 9H':'')+'</div>'+
+        '</div>'+
+        '<div style="text-align:right;flex-shrink:0;">'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.8rem;font-weight:700;color:var(--augusta-deep);line-height:1;">'+round.score+'</div>'+
+          '<div style="font-size:0.72rem;font-weight:700;color:'+ovCol+';">'+ovS+'</div>'+
+        '</div>'+
       '</div>'+
-      '<div class="feed-score">'+
-        '<div style="color:'+ovCol+';">'+round.score+'</div>'+
-        '<div class="feed-score-sub">'+ovS+' · diff '+parseFloat(round.diff).toFixed(1)+'</div>'+
+      (round.notes?'<div style="padding:0 16px 12px;font-size:0.85rem;color:var(--text-mid);font-style:italic;line-height:1.5;border-top:1px solid var(--border);padding-top:10px;margin-top:0;">'+round.notes+'</div>':'')+
+      '<div style="display:flex;align-items:center;gap:16px;padding:10px 16px;border-top:1px solid var(--border);background:var(--panel);">'+
+        '<button class="like-btn'+(isLiked?' liked':'')+'" data-id="'+round.id+'" data-count="'+lc+'" style="display:flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;font-size:0.82rem;color:'+(isLiked?'var(--over)':'var(--text-muted)')+';font-weight:600;padding:0;transition:color 0.15s;">'+(isLiked?'♥':'♡')+' '+lc+'</button>'+
+        '<span style="font-size:0.72rem;color:var(--text-muted);">Diff '+parseFloat(round.diff).toFixed(1)+'</span>'+
       '</div>'+
     '</div>';
   }).join('');
@@ -4256,7 +4134,7 @@ async function deleteAccount(){
 }
 
 // ── NAV & UTILS ───────────────────────────────────────────────────────────
-var SECTIONS=['dashboard','courses','leaderboard','stats','social','community','profile'];
+var SECTIONS=['dashboard','courses','leaderboard','stats','social','profile'];
 
 function showSection(s,btn,skipHistory){
   if(SECTIONS.indexOf(s)===-1) s='dashboard';
@@ -4267,7 +4145,7 @@ function showSection(s,btn,skipHistory){
   // Highlight matching nav button
   if(btn){ btn.classList.add('active'); }
   else {
-    var map={dashboard:'navDashboard',courses:'navCourses',leaderboard:'navLeaderboard',stats:'navStats',social:'navSocial',community:'navCommunity',profile:'navProfile'};
+    var map={dashboard:'navDashboard',courses:'navCourses',leaderboard:'navLeaderboard',stats:'navStats',social:'navSocial',profile:'navProfile'};
     var nb=document.getElementById(map[s]); if(nb) nb.classList.add('active');
   }
   // Update URL hash
@@ -4276,7 +4154,6 @@ function showSection(s,btn,skipHistory){
   if(s==='courses') renderCoursesBrowser();
   if(s==='stats'){ loadRounds().then(function(){ renderStats(); }); }
   if(s==='social') loadSocial();
-  if(s==='community') loadCommunity();
   if(s==='profile') loadProfile();
 }
 
@@ -4406,9 +4283,9 @@ async function runGlobalSearch(q){
       closeGlobalSearch();
       if(type==='member'){
         // Go to Community → Find Members and pre-fill search
-        showSection('community',document.getElementById('navCommunity'));
+        showSection('social',document.getElementById('navSocial'));
         setTimeout(function(){
-          showCommunityTab('cmMembers');
+          showSocialTab('sfMembers');
           var inp=document.getElementById('memberSearchInput');
           if(inp){ inp.value=decodeURIComponent(row.dataset.name); inp.dispatchEvent(new Event('input')); }
         },100);
@@ -4421,9 +4298,10 @@ async function runGlobalSearch(q){
         },100);
       } else if(type==='tournament'){
         // Go to Community → Tournaments and open the tourney
-        showSection('community',document.getElementById('navCommunity'));
+        showSection('social',document.getElementById('navSocial'));
         setTimeout(function(){
-          showCommunityTab('cmTournaments');
+          showSocialTab('sfCompete');
+          setTimeout(function(){ showCompeteTab('scTournaments'); },50);
           setTimeout(function(){
             openTourney(row.dataset.id,decodeURIComponent(row.dataset.name),row.dataset.dates,row.dataset.format);
           },300);
@@ -4432,7 +4310,7 @@ async function runGlobalSearch(q){
         // Go to Social → Societies
         showSection('social',document.getElementById('navSocial'));
         setTimeout(function(){
-          showSocialTab('stSocieties');
+          showSocialTab('sfSocieties');
           // If user is a member, open it; otherwise highlight join form
           var match=societies.find(function(s){return s.id===row.dataset.id;}) ||
             {id:row.dataset.id,name:decodeURIComponent(row.dataset.name),invite_code:row.dataset.code};
@@ -4543,12 +4421,82 @@ async function runMemberSearch(q){
         '<div style="font-weight:600;color:var(--augusta-deep);font-size:0.9rem;">'+p.display_name+(isYou?' <span style="font-size:0.65rem;color:var(--gold);font-family:\'Barlow Condensed\',sans-serif;font-weight:600;letter-spacing:0.1em;">(you)</span>':'')+'</div>'+
         (p.home_course_name?'<div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px;">🏠 '+p.home_course_name+'</div>':'')+
       '</div>'+
-      '<div style="text-align:right;">'+
-        '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;font-weight:700;color:var(--augusta-deep);line-height:1;">'+hcpStr+'</div>'+
-        '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:0.55rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);">Handicap</div>'+
+      '<div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px;">'+
+        '<div>'+
+          '<div style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;font-weight:700;color:var(--augusta-deep);line-height:1;">'+hcpStr+'</div>'+
+          '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:0.55rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);">Handicap</div>'+
+        '</div>'+
+        (!isYou?'<button class="follow-btn'+(followingSet.has(p.id)?' following':'')+'" data-id="'+p.id+'" style="font-family:\'Barlow Condensed\',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:2px;cursor:pointer;border:1px solid var(--border);background:'+(followingSet.has(p.id)?'var(--augusta)':'var(--panel)')+';color:'+(followingSet.has(p.id)?'white':'var(--text-mid)')+';white-space:nowrap;">'+(followingSet.has(p.id)?'Following':'Follow')+'</button>':'')+
       '</div>'+
     '</div>';
   }).join('');
+}
+
+// ── LOG MODAL ─────────────────────────────────────────────────────────────
+function openLogModal(){
+  document.getElementById('logRoundModal').style.display='flex';
+  document.getElementById('fDate').valueAsDate=new Date();
+}
+function closeLogModal(){
+  document.getElementById('logRoundModal').style.display='none';
+}
+
+// ── FEED FILTER ───────────────────────────────────────────────────────────
+var feedFilter='following';
+function setFeedFilter(f,btn){
+  feedFilter=f;
+  document.querySelectorAll('#feedFilterFollowing,#feedFilterAll').forEach(function(b){b.classList.remove('active');});
+  if(btn) btn.classList.add('active');
+  loadFeed();
+}
+
+// ── FOLLOWS ───────────────────────────────────────────────────────────────
+var followingSet=new Set();
+
+async function loadFollowing(){
+  var r=await sb.from('follows').select('following_id').eq('follower_id',currentUser.id);
+  followingSet=new Set((r.data||[]).map(function(f){return f.following_id;}));
+}
+
+async function toggleFollow(uid,btn){
+  if(followingSet.has(uid)){
+    await sb.from('follows').delete().eq('follower_id',currentUser.id).eq('following_id',uid);
+    followingSet.delete(uid);
+    if(btn){btn.textContent='Follow';btn.classList.remove('following');}
+    toast('Unfollowed');
+  } else {
+    await sb.from('follows').insert({follower_id:currentUser.id,following_id:uid});
+    followingSet.add(uid);
+    if(btn){btn.textContent='Following';btn.classList.add('following');}
+    toast('Following ✓');
+  }
+}
+
+// ── LIKES ─────────────────────────────────────────────────────────────────
+var likedRounds=new Set();
+
+async function loadLikes(roundIds){
+  if(!roundIds.length) return;
+  var r=await sb.from('round_likes').select('round_id').eq('user_id',currentUser.id).in('round_id',roundIds);
+  likedRounds=new Set((r.data||[]).map(function(l){return l.round_id;}));
+}
+
+async function toggleLike(roundId,btn){
+  if(likedRounds.has(roundId)){
+    await sb.from('round_likes').delete().eq('round_id',roundId).eq('user_id',currentUser.id);
+    likedRounds.delete(roundId);
+    var count=parseInt(btn.dataset.count||0)-1;
+    btn.dataset.count=count;
+    btn.innerHTML='♡ '+count;
+    btn.classList.remove('liked');
+  } else {
+    await sb.from('round_likes').insert({round_id:roundId,user_id:currentUser.id});
+    likedRounds.add(roundId);
+    var count=parseInt(btn.dataset.count||0)+1;
+    btn.dataset.count=count;
+    btn.innerHTML='♥ '+count;
+    btn.classList.add('liked');
+  }
 }
 
 function fDate(s){
