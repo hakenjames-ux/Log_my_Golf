@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LMG — Log My Golf</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%232f9e5b'/%3E%3Ctext x='50' y='64' font-family='Arial,Helvetica,sans-serif' font-size='30' font-weight='bold' fill='%230a0a0b' text-anchor='middle'%3ELMG%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -1091,23 +1092,28 @@ header::before{
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Overview
       </button>
-      <button class="profile-sidenav-item" onclick="showProfileSection('ps-public',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        Public Profile
-      </button>
-      <button class="profile-sidenav-item" onclick="showProfileSection('ps-account',this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-        Account Settings
-      </button>
       <button class="profile-sidenav-item" onclick="showProfileSection('ps-calendar',this)">
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         Round Calendar
       </button>
-      <button class="profile-sidenav-item" onclick="showProfileSection('ps-export',this)">
+      <button class="profile-sidenav-item" id="editProfileBtn" onclick="toggleEditProfile()">
+        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit Profile
+      </button>
+      <!-- Hidden until Edit Profile is clicked -->
+      <button class="profile-sidenav-item profile-setting" style="display:none;" onclick="showProfileSection('ps-public',this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Public Profile
+      </button>
+      <button class="profile-sidenav-item profile-setting" style="display:none;" onclick="showProfileSection('ps-account',this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Account Settings
+      </button>
+      <button class="profile-sidenav-item profile-setting" style="display:none;" onclick="showProfileSection('ps-export',this)">
         <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Export Data
       </button>
-      <button class="profile-sidenav-item danger-item" onclick="showProfileSection('ps-danger',this)">
+      <button class="profile-sidenav-item danger-item profile-setting" style="display:none;" onclick="showProfileSection('ps-danger',this)">
         <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         Danger Zone
       </button>
@@ -1150,7 +1156,6 @@ header::before{
         <div class="panel" style="padding:0;overflow:hidden;">
           <div class="section-head" style="padding:18px 24px 14px;border-bottom:2px solid var(--border);margin-bottom:0;">
             <span class="section-label">Round History</span>
-            <button class="filter-pill" id="clearAllBtn" style="border-color:#f0c0c0;color:var(--danger);">Clear All</button>
           </div>
           <table class="sc-table">
             <thead><tr><th>Course</th><th>Date</th><th>Par</th><th>Score</th><th>+/−</th><th>Diff.</th><th></th></tr></thead>
@@ -1293,7 +1298,7 @@ header::before{
 <div class="container" id="section-stats" style="display:none">
 
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-    <button class="filter-pill" id="statsBackBtn">← Back to Home</button>
+    <button class="filter-pill" id="statsBackBtn">Back</button>
     <button onclick="exportStatsPDF()" style="background:none;border:1px solid var(--border);border-radius:var(--radius);padding:8px 16px;font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)';" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)';">Export Stats</button>
   </div>
 
@@ -2995,6 +3000,19 @@ function showProfileSection(id,btn){
   if(id==='ps-calendar') initCalendar();
 }
 
+var editProfileMode=false;
+function toggleEditProfile(){
+  editProfileMode=!editProfileMode;
+  document.querySelectorAll('.profile-setting').forEach(function(b){b.style.display=editProfileMode?'':'none';});
+  var btn=document.getElementById('editProfileBtn');
+  btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> '+(editProfileMode?'Done Editing':'Edit Profile');
+  if(editProfileMode){
+    showProfileSection('ps-account',document.querySelectorAll('.profile-setting')[1]);
+  } else {
+    showProfileSection('ps-overview',document.querySelector('.profile-sidenav-item'));
+  }
+}
+
 // ── PROFILE ───────────────────────────────────────────────────────────────
 var profileData=null, favourites=[], profileSearchTimer=null;
 
@@ -3010,6 +3028,11 @@ var ACHIEVEMENTS=[
 
 async function loadProfile(){
   if(!currentUser) return;
+  // Reset edit mode — profile always opens on a clean Overview
+  if(editProfileMode){ editProfileMode=false; }
+  document.querySelectorAll('.profile-setting').forEach(function(b){b.style.display='none';});
+  var epb=document.getElementById('editProfileBtn');
+  if(epb) epb.innerHTML='<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit Profile';
   // Set display name and email
   var name=currentUser.user_metadata&&currentUser.user_metadata.display_name?currentUser.user_metadata.display_name:currentUser.email.split('@')[0];
   document.getElementById('profileName').textContent=name;
