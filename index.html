@@ -409,6 +409,8 @@ header::before{
   border-radius:1px;transition:all 0.15s;
 }
 .row-del:hover{background:var(--over-bg);color:var(--danger);}
+.round-row{transition:background 0.12s;}
+.round-row:hover{background:var(--ink-soft);}
 
 /* ── LOG FORM ── */
 .log-panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm);}
@@ -1769,6 +1771,40 @@ header::before{
   </div>
 </div>
 
+<!-- ROUND DETAIL MODAL -->
+<div class="modal-overlay" id="roundDetailModal" style="display:none;align-items:flex-start;padding-top:60px;">
+  <div class="modal-box" style="max-width:480px;">
+    <button class="modal-close" id="closeRoundDetailBtn">✕</button>
+    <div class="modal-title" id="rdCourse">Round</div>
+    <div class="modal-sub" id="rdDate"></div>
+
+    <!-- Big score row -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0;text-align:center;">
+      <div style="background:var(--ink-soft);border-radius:var(--radius);padding:16px 8px;">
+        <div id="rdScore" style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--augusta-deep);line-height:1;">—</div>
+        <div style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-top:5px;">Score</div>
+      </div>
+      <div style="background:var(--ink-soft);border-radius:var(--radius);padding:16px 8px;">
+        <div id="rdVsPar" style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;line-height:1;">—</div>
+        <div style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-top:5px;">vs Par</div>
+      </div>
+      <div style="background:var(--ink-soft);border-radius:var(--radius);padding:16px 8px;">
+        <div id="rdDiff" style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--augusta-deep);line-height:1;">—</div>
+        <div style="font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-top:5px;">Differential</div>
+      </div>
+    </div>
+
+    <!-- Meta + optional stats -->
+    <div id="rdMeta" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;"></div>
+
+    <!-- Notes -->
+    <div id="rdNotes" style="display:none;background:var(--ink-soft);border-left:3px solid var(--gold);border-radius:var(--radius);padding:12px 14px;font-size:0.85rem;color:var(--text-mid);font-style:italic;line-height:1.5;margin-bottom:16px;"></div>
+
+    <!-- Delete -->
+    <button class="log-btn" id="rdDeleteBtn" style="background:none;border:1px solid var(--border);color:var(--over);width:100%;">🗑 Delete this round</button>
+  </div>
+</div>
+
 <!-- GLOBAL SEARCH OVERLAY -->
 <div id="globalSearchOverlay" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(10,26,18,0.82);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);">
   <div style="max-width:640px;margin:80px auto 0;padding:0 16px;">
@@ -1971,7 +2007,12 @@ document.addEventListener('click',function(e){
   if(id==='refreshLbBtn'){loadLeaderboard();return;}
   // History
   if(id==='clearAllBtn'){clearAllRounds();return;}
-  // Delete round
+  // Round detail modal
+  var rrow=e.target.closest('.round-row');
+  if(rrow&&rrow.dataset.id){openRoundModal(rrow.dataset.id);return;}
+  if(id==='closeRoundDetailBtn'||id==='roundDetailModal'){closeRoundModal();return;}
+  if(id==='rdDeleteBtn'){confirmDeleteCurrentRound();return;}
+  // Delete round (legacy inline buttons, if any remain)
   var del=e.target.closest('.row-del');
   if(del&&del.dataset.id){deleteRound(del.dataset.id);return;}
 });
@@ -1990,7 +2031,7 @@ document.addEventListener('keydown',function(e){
     if(e.target.id==='loginPass'){doLogin();return;}
     if(e.target.id==='regPass'){doRegister();return;}
   }
-  if(e.key==='Escape'){ closeAddCourse(); closeReviewModal(); closeWeatherModal(); }
+  if(e.key==='Escape'){ closeAddCourse(); closeReviewModal(); closeWeatherModal(); closeRoundModal(); closeLogModal(); }
 });
 
 // ── AUTH ──────────────────────────────────────────────────────────────────
@@ -2168,6 +2209,60 @@ async function deleteRound(id){
   var r=await sb.from('rounds').delete().eq('id',id).eq('user_id',currentUser.id);
   if(r.error){toast('Error deleting.');return;}
   rounds=rounds.filter(function(x){return x.id!==id;}); renderAll(); toast('Round removed.');
+}
+
+// ── ROUND DETAIL MODAL ────────────────────────────────────────────────────
+var currentRoundId=null;
+
+function openRoundModal(id){
+  var r=rounds.find(function(x){return x.id===id;});
+  if(!r) return;
+  currentRoundId=id;
+  var ov=r.score-r.par, ovS=ov===0?'E':(ov>0?'+'+ov:''+ov);
+  var ovCol=ov<0?'var(--under)':ov>0?'var(--over)':'var(--gold)';
+  document.getElementById('rdCourse').textContent=r.course;
+  document.getElementById('rdDate').textContent=fDate(r.date)+' · '+(r.holes_played||18)+' holes';
+  document.getElementById('rdScore').textContent=r.score;
+  var vp=document.getElementById('rdVsPar');
+  vp.textContent=ovS; vp.style.color=ovCol;
+  document.getElementById('rdDiff').textContent=parseFloat(r.diff).toFixed(1);
+
+  // Meta tiles (par, rating, slope + any optional stats present)
+  var meta=[
+    {l:'Par',v:r.par},
+    {l:'Course Rating',v:r.rating||'—'},
+    {l:'Slope',v:r.slope||'—'}
+  ];
+  if(r.putts!=null) meta.push({l:'Putts',v:r.putts});
+  if(r.fairways_hit!=null) meta.push({l:'Fairways',v:r.fairways_hit+'/14'});
+  if(r.greens_in_regulation!=null) meta.push({l:'GIR',v:r.greens_in_regulation+'/18'});
+  if(r.penalties!=null) meta.push({l:'Penalties',v:r.penalties});
+  document.getElementById('rdMeta').innerHTML=meta.map(function(m){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--ink-soft);border-radius:var(--radius);">'+
+      '<span style="font-family:\'Inter\',sans-serif;font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);">'+m.l+'</span>'+
+      '<span style="font-weight:700;color:var(--augusta-deep);font-size:0.9rem;">'+m.v+'</span>'+
+    '</div>';
+  }).join('');
+
+  // Notes
+  var notesEl=document.getElementById('rdNotes');
+  if(r.notes){ notesEl.style.display='block'; notesEl.textContent='“'+r.notes+'”'; }
+  else { notesEl.style.display='none'; }
+
+  document.getElementById('roundDetailModal').style.display='flex';
+}
+
+function closeRoundModal(){
+  document.getElementById('roundDetailModal').style.display='none';
+  currentRoundId=null;
+}
+
+async function confirmDeleteCurrentRound(){
+  if(!currentRoundId) return;
+  if(!confirm('Delete this round? This cannot be undone.')) return;
+  var id=currentRoundId;
+  closeRoundModal();
+  await deleteRound(id);
 }
 async function clearAllRounds(){
   if(!confirm('Delete all rounds? Cannot be undone.')) return;
@@ -2533,7 +2628,7 @@ function rRecent(){
     var ov=r.score-r.par, ovS=ov===0?'E':(ov>0?'+'+ov:''+ov);
     var cls=ov<0?'pill-under':ov>0?'pill-over':'pill-even';
     var badge=(r.score===minS&&rounds.length>1)?'<span class="badge badge-gold">Best</span>':(i===0?'<span class="badge badge-new">Latest</span>':'');
-    return '<tr><td><div class="td-course">'+r.course+'</div><div class="td-date">'+fDate(r.date)+'</div></td><td><span class="td-score">'+r.score+'</span></td><td><span class="pill '+cls+'">'+ovS+'</span></td><td style="font-size:0.8rem;font-weight:500;">'+parseFloat(r.diff).toFixed(1)+'</td><td>'+badge+' <button class="row-del" data-id="'+r.id+'">✕</button></td></tr>';
+    return '<tr class="round-row" data-id="'+r.id+'" style="cursor:pointer;"><td><div class="td-course">'+r.course+'</div><div class="td-date">'+fDate(r.date)+'</div></td><td><span class="td-score">'+r.score+'</span></td><td><span class="pill '+cls+'">'+ovS+'</span></td><td style="font-size:0.8rem;font-weight:500;">'+parseFloat(r.diff).toFixed(1)+'</td><td style="text-align:right;">'+badge+' <span style="color:var(--text-muted);font-size:0.9rem;">›</span></td></tr>';
   }).join('');
 }
 
@@ -2544,7 +2639,7 @@ function rHistory(){
   body.innerHTML=all.map(function(r){
     var ov=r.score-r.par, ovS=ov===0?'E':(ov>0?'+'+ov:''+ov);
     var cls=ov<0?'pill-under':ov>0?'pill-over':'pill-even';
-    return '<tr><td><strong style="color:var(--augusta-deep);font-size:0.88rem;">'+r.course+'</strong></td><td style="font-size:0.75rem;color:var(--text-muted);font-weight:300;">'+fDate(r.date)+'</td><td>'+r.par+'</td><td><strong>'+r.score+'</strong></td><td><span class="pill '+cls+'">'+ovS+'</span></td><td style="font-size:0.8rem;font-weight:500;">'+parseFloat(r.diff).toFixed(1)+'</td><td><button class="row-del" data-id="'+r.id+'">✕</button></td></tr>';
+    return '<tr class="round-row" data-id="'+r.id+'" style="cursor:pointer;"><td><strong style="color:var(--augusta-deep);font-size:0.88rem;">'+r.course+'</strong></td><td style="font-size:0.75rem;color:var(--text-muted);font-weight:300;">'+fDate(r.date)+'</td><td>'+r.par+'</td><td><strong>'+r.score+'</strong></td><td><span class="pill '+cls+'">'+ovS+'</span></td><td style="font-size:0.8rem;font-weight:500;">'+parseFloat(r.diff).toFixed(1)+'</td><td style="text-align:right;color:var(--text-muted);">›</td></tr>';
   }).join('');
 }
 
