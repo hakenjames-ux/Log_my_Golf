@@ -3,56 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Golf Log — Score &amp; Handicap Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Loft — Track Your Golf</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root {
-  --augusta: #1a3a2a;
-  --augusta-deep: #0f2419;
-  --augusta-mid: #2a5040;
-  --augusta-light: #3a6a52;
-  --augusta-pale: #c8ddd2;
-  --gold: #c9a84c;
-  --gold-light: #e8c97a;
-  --gold-pale: #f5ecd0;
-  --white: #ffffff;
-  --off-white: #f8faf9;
-  --panel: #f2f6f4;
-  --border: #dce8e2;
-  --border-strong: #b8d0c4;
-  --text: #0f2419;
-  --text-mid: #3a5040;
-  --text-muted: #7a9a8a;
-  --danger: #c0392b;
-  --under: #1a5c2a;
-  --under-bg: #e8f5ec;
-  --over: #8b1a1a;
-  --over-bg: #faeaea;
-  --shadow-sm: 0 1px 4px rgba(15,36,25,0.08);
-  --shadow-md: 0 4px 16px rgba(15,36,25,0.12);
-  --shadow-lg: 0 12px 40px rgba(15,36,25,0.18);
-  --azalea: #e8a0b0;
-  --azalea-deep: #c4607a;
-  --azalea-pale: #fdf0f4;
-  --radius: 2px;
+  /* Electric fairway green on near-black */
+  --augusta: #5ad65a;        /* accent green (button/avatar backgrounds) */
+  --augusta-deep: #f2f4f3;   /* primary heading/text on dark */
+  --augusta-mid: #46c246;    /* accent hover */
+  --augusta-light: #6ee06e;  /* focus ring */
+  --augusta-pale: #2a3a30;   /* muted/disabled surfaces */
+  --gold: #5ad65a;           /* secondary accent -> green */
+  --gold-light: #7de87d;
+  --gold-pale: #18211a;
+  --white: #161719;          /* card surface */
+  --off-white: #0a0a0b;      /* page background */
+  --panel: #1c1d20;          /* elevated panel */
+  --border: #2a2b2f;
+  --border-strong: #3a3b40;
+  --text: #ededed;
+  --text-mid: #b4b4b8;
+  --text-muted: #76767c;
+  --danger: #ff5c5c;
+  --under: #5ad65a;
+  --under-bg: #14241a;
+  --over: #ff6b6b;
+  --over-bg: #281414;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.4);
+  --shadow-md: 0 6px 20px rgba(0,0,0,0.45);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.55);
+  --azalea: #5ad65a;
+  --azalea-deep: #46c246;
+  --azalea-pale: #14241a;
+  --ink: #0d0e10;            /* dark surface: header, hero, auth */
+  --ink-soft: #131417;
+  --radius: 9px;
 }
-[data-theme="dark"]{
-  --off-white: #0f1a14;
-  --white: #1a2b20;
-  --panel: #1f2f24;
-  --border: #2a3f30;
-  --border-strong: #3a5540;
-  --text: #e8f0eb;
-  --text-mid: #c0d8c8;
-  --text-muted: #8aaa96;
-  --under-bg: #0f2a14;
-  --over-bg: #2a1010;
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.3);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
-}
+/* App is dark by default now; toggle retained as no-op for future light theme */
+[data-theme="dark"]{}
 [data-theme="dark"] .section-label{color:var(--gold);}
 [data-theme="dark"] .panel{background:var(--white);border-color:var(--border);}
 [data-theme="dark"] .cc-name,[data-theme="dark"] .cc-stat-v{color:#e8f0eb;}
@@ -83,7 +73,7 @@
 [data-theme="dark"] .hero-stat-val{color:var(--gold);}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{-webkit-font-smoothing:antialiased;}
-body{font-family:'Barlow',sans-serif;background:var(--off-white);color:var(--text);overflow-x:hidden;}
+body{font-family:'Inter',sans-serif;background:var(--off-white);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
 
 /* ── TEXTURE OVERLAY ── */
 body::after{
@@ -95,7 +85,7 @@ body::after{
 /* ══════════════════ AUTH ══════════════════ */
 #authScreen{
   position:fixed;inset:0;display:flex;align-items:stretch;
-  background:var(--augusta-deep);
+  background:var(--ink);
   z-index:999;
 }
 #authScreen.hidden{display:none !important;}
@@ -110,7 +100,7 @@ body::after{
   background:
     radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
     radial-gradient(ellipse at 80% 20%, rgba(58,106,82,0.3) 0%, transparent 50%),
-    linear-gradient(160deg, var(--augusta-deep) 0%, var(--augusta) 100%);
+    linear-gradient(160deg, var(--ink) 0%, #10231a 100%);
   pointer-events:none;
 }
 /* Decorative stripes */
@@ -131,13 +121,13 @@ body::after{
   letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);
 }
 .auth-wordmark{
-  font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:600;
-  color:var(--white);letter-spacing:-0.02em;line-height:1;
+  font-family:'Inter',sans-serif;font-size:5.2rem;font-weight:800;
+  color:#fff;letter-spacing:-0.05em;line-height:1;
   display:block;margin-bottom:16px;
 }
 .auth-sub{
-  font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:400;
-  letter-spacing:0.25em;text-transform:uppercase;color:var(--augusta-pale);opacity:0.7;
+  font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:600;
+  letter-spacing:0.28em;text-transform:uppercase;color:var(--augusta);opacity:0.85;
 }
 .auth-divider-vert{width:1px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,0.3),transparent);flex-shrink:0;}
 .auth-right{
@@ -204,7 +194,7 @@ body::after{
 #appShell{display:none;}
 
 /* HEADER */
-header{background:var(--augusta-deep);position:relative;overflow:hidden;}
+header{background:var(--ink);position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
 header::before{
   content:'';position:absolute;inset:0;
   background:
@@ -229,13 +219,13 @@ header::before{
 }
 .brand-icon svg{width:28px;height:28px;}
 .brand-name{
-  font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;
-  color:rgba(255,255,255,0.45);letter-spacing:0.02em;line-height:1;
+  font-family:'Inter',sans-serif;font-size:1.5rem;font-weight:800;
+  color:#fff;letter-spacing:-0.03em;line-height:1;
 }
 .brand-tagline{
-  font-family:'Barlow Condensed',sans-serif;font-size:0.58rem;font-weight:500;
-  letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);opacity:0.8;
-  margin-top:2px;
+  font-family:'Inter',sans-serif;font-size:0.56rem;font-weight:600;
+  letter-spacing:0.28em;text-transform:uppercase;color:var(--augusta);opacity:0.9;
+  margin-top:3px;
 }
 .header-user{display:flex;align-items:center;gap:10px;}
 .user-name{
@@ -281,7 +271,7 @@ header::before{
   position:relative;
 }
 .nav-item:hover{color:rgba(255,255,255,0.8);}
-.nav-item.active{color:var(--white);border-bottom-color:var(--gold);}
+.nav-item.active{color:#fff;border-bottom-color:var(--gold);}
 
 /* GOLD RULE */
 .gold-rule{height:2px;background:linear-gradient(90deg,var(--gold) 0%,var(--azalea) 40%,var(--gold-light) 60%,var(--gold) 100%);}
@@ -291,7 +281,8 @@ header::before{
 
 /* ── SCORECARD HERO ── */
 .scorecard-hero{
-  background:var(--augusta);
+  background:var(--ink);
+  border:1px solid var(--border);
   border-radius:var(--radius);
   overflow:hidden;
   margin-bottom:32px;
@@ -322,7 +313,7 @@ header::before{
 }
 .hero-hcp-value{
   font-family:'Cormorant Garamond',serif;font-size:5.5rem;font-weight:600;
-  line-height:0.9;color:var(--white);letter-spacing:-0.02em;
+  line-height:0.9;color:#fff;letter-spacing:-0.02em;
 }
 .hero-hcp-sub{
   font-size:0.75rem;font-weight:300;color:rgba(255,255,255,0.45);
@@ -488,11 +479,11 @@ header::before{
 /* ── LEADERBOARD ── */
 .lb-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);animation:fadeUp 0.5s 0.06s ease both;}
 .lb-thead{
-  background:var(--augusta-deep);
+  background:var(--ink);
   padding:20px 28px;
   display:flex;align-items:center;justify-content:space-between;
 }
-.lb-thead-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;font-style:italic;color:var(--white);}
+.lb-thead-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;font-style:italic;color:#fff;}
 .lb-thead-sub{font-family:'Barlow Condensed',sans-serif;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);opacity:0.8;}
 .lb-row{
   display:grid;grid-template-columns:52px 1fr 80px 80px;
@@ -571,13 +562,13 @@ header::before{
 .tag-downland{border-color:#d0d8b8;color:#3a4a2a;background:#f4f8ec;}
 .log-panel input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:0.7;cursor:pointer;}
 .log-panel input[type="date"]::-webkit-calendar-picker-indicator:hover{opacity:1;}
-.dark-toggle{position:fixed;bottom:20px;right:20px;z-index:400;background:var(--white);border:1px solid var(--border);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-md);font-size:1.1rem;transition:all 0.2s;}
+.dark-toggle{display:none!important;}
 .dark-toggle:hover{transform:scale(1.1);box-shadow:var(--shadow-lg);}
 /* ── HAMBURGER MENU ── */
 .hamburger-btn{display:none;background:none;border:none;cursor:pointer;padding:8px;color:rgba(255,255,255,0.8);}
 .hamburger-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
 .mob-menu-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;}
-.mob-menu-drawer{display:none;position:fixed;top:0;right:0;bottom:0;width:75%;max-width:300px;background:var(--augusta-deep);z-index:9999;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,0.4);transform:translateX(100%);transition:transform 0.25s ease;}
+.mob-menu-drawer{display:none;position:fixed;top:0;right:0;bottom:0;width:75%;max-width:300px;background:var(--ink);z-index:9999;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,0.4);transform:translateX(100%);transition:transform 0.25s ease;}
 .mob-menu-drawer.open{display:flex;transform:translateX(0);}
 .mob-menu-header{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.1);}
 .mob-menu-title{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);}
@@ -736,7 +727,7 @@ header::before{
 .reminder-delete{background:none;border:none;color:#ccc;cursor:pointer;font-size:0.85rem;transition:color 0.15s;}
 .reminder-delete:hover{color:var(--danger);}padding:16px 0;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:flex-start;}
 .feed-item:last-child{border-bottom:none;}
-.feed-avatar{width:36px;height:36px;border-radius:50%;background:var(--augusta);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--gold);flex-shrink:0;}
+.feed-avatar{width:36px;height:36px;border-radius:50%;background:var(--augusta);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);flex-shrink:0;}
 .feed-body{flex:1;}
 .feed-name{font-weight:700;color:var(--augusta-deep);font-size:0.88rem;}
 .feed-detail{font-size:0.78rem;color:var(--text-muted);margin-top:2px;}
@@ -804,7 +795,7 @@ header::before{
 /* ── TOAST ── */
 #toast{
   position:fixed;bottom:28px;right:28px;
-  background:var(--augusta-deep);color:var(--white);
+  background:var(--augusta);color:var(--ink);
   padding:12px 22px;border-radius:var(--radius);
   font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;
   font-weight:500;letter-spacing:0.1em;
@@ -854,9 +845,9 @@ header::before{
 <div id="authScreen">
   <div class="auth-left">
     <div class="auth-brand">
-      <div class="auth-badge">Est. on the Fairway</div>
-      <span class="auth-wordmark">The Golf Log</span>
-      <span class="auth-sub">Golf Score &amp; Handicap Tracker</span>
+      <div class="auth-badge">The Social Golf Network</div>
+      <span class="auth-wordmark">Loft</span>
+      <span class="auth-sub">Track · Share · Compete</span>
     </div>
     <div class="landing-features">
       <div class="landing-feature">
@@ -939,8 +930,8 @@ header::before{
           </svg>
         </div>
         <div>
-          <div class="brand-name">The Golf Log</div>
-          <div class="brand-tagline">Score &amp; Handicap Tracker</div>
+          <div class="brand-name">Loft</div>
+          <div class="brand-tagline">Track Your Golf</div>
         </div>
       </div>
       <div class="header-user">
@@ -972,7 +963,7 @@ header::before{
       <div class="hero-inner" style="grid-template-columns:auto 1px 1fr;">
         <div class="hero-hcp" style="min-width:180px;">
           <div class="hero-hcp-label">Welcome back</div>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--white);line-height:1.1;margin-bottom:6px;" id="dashUserName">—</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:#fff;line-height:1.1;margin-bottom:6px;" id="dashUserName">—</div>
           <div class="hero-hcp-label" style="margin-top:8px;">Handicap Index</div>
           <div class="hero-hcp-value" id="hcpDisplay">—</div>
           <div class="hero-hcp-sub" id="hcpSubtitle">No rounds logged yet</div>
@@ -1044,7 +1035,7 @@ header::before{
       <!-- Name + email -->
       <div class="hero-hcp" style="padding:0 24px;">
         <div class="hero-hcp-label">Golfer</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--white);line-height:1.1;" id="profileName">—</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:#fff;line-height:1.1;" id="profileName">—</div>
         <div class="hero-hcp-sub" id="profileEmail" style="display:none;">—</div>
       </div>
 
@@ -1779,7 +1770,7 @@ header::before{
 <!-- Mobile nav — inside appShell so hidden until logged in -->
 <div id="mobileMenuOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:8998;" onclick="closeMobileMenu()"></div>
 <div id="mobileMenuDrawer" style="display:none;position:fixed;top:0;left:0;right:0;background:var(--white);z-index:8999;max-height:100vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
-  <div style="background:var(--augusta-deep);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+  <div style="background:var(--ink);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
     <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);">Navigation</div>
     <button onclick="closeMobileMenu()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:1.4rem;cursor:pointer;line-height:1;padding:0;">✕</button>
   </div>
