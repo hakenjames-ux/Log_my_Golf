@@ -2292,26 +2292,22 @@ async function clearAllRounds(){
 function calcHcp(rs){
   if(!rs||!rs.length) return null;
 
-  // Separate 18-hole and 9-hole rounds (default to 18 if holes_played not set)
-  var full=rs.filter(function(r){return !r.holes_played||r.holes_played===18;});
-  var nine=rs.filter(function(r){return r.holes_played===9;});
-
-  // Pair 9-hole rounds chronologically — pairs combine into one 18-hole differential
-  var paired=[];
-  for(var i=0;i+1<nine.length;i+=2){
-    paired.push({diff:parseFloat((nine[i].diff+nine[i+1].diff).toFixed(1))});
-  }
-  // Odd unpaired 9-hole round is excluded per WHS rules
-
-  // Combine full 18-hole rounds with paired 9-hole rounds
-  var combined=full.concat(paired);
+  // Build a chronological list of 18-hole-equivalent differentials.
+  // - 18-hole rounds use their differential directly.
+  // - Each 9-hole round is converted to an 18-hole equivalent (× 2), so it
+  //   counts immediately rather than waiting to be paired with another.
+  var combined=rs.map(function(r){
+    if(r.holes_played===9) return parseFloat((r.diff*2).toFixed(1));
+    return r.diff;
+  });
   if(!combined.length) return null;
 
   var n=combined.length;
   var count=n>=20?8:n>=17?7:n>=14?6:n>=11?5:n>=9?4:n>=7?3:n>=5?2:n>=3?1:null;
   if(!count) return null;
 
-  var diffs=combined.slice(-20).map(function(r){return r.diff;}).sort(function(a,b){return a-b;});
+  // Most recent 20 rounds, then take the best 'count' differentials
+  var diffs=combined.slice(-20).sort(function(a,b){return a-b;});
   var avg=diffs.slice(0,count).reduce(function(s,v){return s+v;},0)/count;
   return Math.round(avg*10)/10;
 }
@@ -2612,15 +2608,13 @@ async function renderDashFeedSlice(){
 function rHcp(){
   var hcp=calcHcp(rounds);
   var el=document.getElementById('hcpDisplay'), sub=document.getElementById('hcpSubtitle');
-  var nine=rounds.filter(function(r){return r.holes_played===9;});
-  var unpaired=nine.length%2===1;
   if(hcp===null){
     el.textContent='—';
     sub.textContent=rounds.length<3?rounds.length+' rounds logged — need 3 to calculate':'No rounds yet';
   }else{
     var hcpStr=(hcp<=0?'+':'')+Math.abs(hcp).toFixed(1);
     el.textContent=hcpStr;
-    sub.textContent='WHS · Best differentials from '+Math.min(20,rounds.length)+' rounds'+(unpaired?' · 1 unpaired 9-hole round pending':'');
+    sub.textContent='WHS · Best differentials from '+Math.min(20,rounds.length)+' rounds';
   }
   document.getElementById('statRounds').textContent=rounds.length;
   if(rounds.length){
