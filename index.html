@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LMG — Log My Golf</title>
+<meta name="theme-color" content="#0d0e10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LMG">
+<link rel="manifest" href="/manifest.json">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%232f9e5b'/%3E%3Ctext x='50' y='64' font-family='Arial,Helvetica,sans-serif' font-size='30' font-weight='bold' fill='%230a0a0b' text-anchor='middle'%3ELMG%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -111,7 +116,7 @@ body::after{
 .auth-left::before{
   content:'';position:absolute;inset:0;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 50%, rgba(47,158,91,0.08) 0%, transparent 60%),
     radial-gradient(ellipse at 80% 20%, rgba(58,106,82,0.3) 0%, transparent 50%),
     linear-gradient(160deg, var(--ink) 0%, #10231a 100%);
   pointer-events:none;
@@ -142,7 +147,7 @@ body::after{
   font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:600;
   letter-spacing:0.08em;text-transform:uppercase;color:var(--augusta);opacity:0.85;
 }
-.auth-divider-vert{width:1px;background:linear-gradient(to bottom,transparent,rgba(201,168,76,0.3),transparent);flex-shrink:0;}
+.auth-divider-vert{width:1px;background:linear-gradient(to bottom,transparent,rgba(47,158,91,0.3),transparent);flex-shrink:0;}
 .auth-right{
   width:420px;flex-shrink:0;
   background:var(--white);display:flex;align-items:center;justify-content:center;
@@ -200,7 +205,7 @@ body::after{
   #authScreen{flex-direction:column;}
   .auth-left{padding:40px 24px;min-height:220px;}
   .auth-wordmark{font-size:3.5rem;}
-  .auth-divider-vert{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.3),transparent);}
+  .auth-divider-vert{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(47,158,91,0.3),transparent);}
   .auth-right{width:100%;padding:32px 24px;}
 }
 
@@ -213,7 +218,7 @@ header::before{
   content:'';position:absolute;inset:0;
   background:
     repeating-linear-gradient(90deg,transparent 0,transparent 59px,rgba(255,255,255,0.015) 59px,rgba(255,255,255,0.015) 60px),
-    radial-gradient(ellipse at 95% 50%, rgba(232,160,176,0.08) 0%, transparent 50%);
+    radial-gradient(ellipse at 95% 50%, rgba(47,158,91,0.08) 0%, transparent 50%);
 }
 .header-top{
   max-width:1160px;margin:0 auto;
@@ -246,8 +251,8 @@ header::before{
 .sign-out-btn{
   font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:600;
   letter-spacing:0.05em;text-transform:uppercase;
-  padding:7px 16px;border:1px solid rgba(201,168,76,0.3);
-  color:rgba(201,168,76,0.7);background:none;cursor:pointer;
+  padding:7px 16px;border:1px solid rgba(47,158,91,0.3);
+  color:rgba(47,158,91,0.7);background:none;cursor:pointer;
   border-radius:var(--radius);transition:all 0.2s;
 }
 .sign-out-btn:hover{border-color:var(--gold);color:var(--gold);}
@@ -255,7 +260,7 @@ header::before{
 #openLogModalBtn:hover{background:var(--augusta-mid);transform:translateY(-1px);box-shadow:0 6px 24px rgba(26,58,42,0.35);}
 .follow-btn.following{background:var(--augusta)!important;color:white!important;border-color:var(--augusta)!important;}
 .gs-trigger{display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:7px 14px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.55);background:rgba(255,255,255,0.06);cursor:pointer;border-radius:var(--radius);transition:all 0.2s;}
-.gs-trigger:hover{border-color:rgba(201,168,76,0.5);color:rgba(201,168,76,0.9);background:rgba(201,168,76,0.08);}
+.gs-trigger:hover{border-color:rgba(47,158,91,0.5);color:rgba(47,158,91,0.9);background:rgba(47,158,91,0.08);}
 .gs-category{font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);padding:10px 20px 4px;border-top:1px solid var(--border);margin-top:4px;}
 .gs-category:first-child{border-top:none;margin-top:0;}
 .gs-result{display:flex;align-items:center;gap:12px;padding:10px 20px;cursor:pointer;transition:background 0.1s;}
@@ -310,9 +315,9 @@ header::before{
 .scorecard-hero::before{
   content:'';position:absolute;inset:0;
   background:
-    radial-gradient(ellipse at 0% 100%, rgba(201,168,76,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 0% 100%, rgba(47,158,91,0.06) 0%, transparent 50%),
     radial-gradient(ellipse at 100% 0%, rgba(58,106,82,0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 90%, rgba(232,160,176,0.12) 0%, transparent 45%);
+    radial-gradient(ellipse at 85% 90%, rgba(47,158,91,0.12) 0%, transparent 45%);
 }
 .hero-inner{
   position:relative;z-index:1;
@@ -432,6 +437,49 @@ header::before{
 .row-del:hover{background:var(--over-bg);color:var(--danger);}
 .round-row{transition:background 0.12s;}
 .round-row:hover{background:var(--ink-soft);}
+
+/* ── ROUND CARDS (replaces table rows) ── */
+.round-card{
+  display:flex;align-items:center;gap:var(--s4);
+  background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+  padding:var(--s4);margin-bottom:var(--s2);cursor:pointer;
+  transition:transform 0.15s,border-color 0.15s,box-shadow 0.15s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.04),var(--shadow-sm);
+}
+.round-card:hover{transform:translateY(-1px);border-color:var(--border-strong);box-shadow:inset 0 1px 0 rgba(255,255,255,0.04),var(--shadow-md);background:var(--white);}
+.round-card:active{transform:translateY(0);}
+.rc-main{flex:1;min-width:0;}
+.rc-course{font-weight:600;color:var(--augusta-deep);font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rc-date{font-size:0.72rem;color:var(--text-muted);margin-top:3px;}
+.rc-vspar{font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:700;flex-shrink:0;min-width:34px;text-align:right;}
+.rc-score{font-family:'Inter',sans-serif;font-size:1.5rem;font-weight:700;color:var(--augusta-deep);letter-spacing:-0.02em;flex-shrink:0;min-width:44px;text-align:right;}
+.rc-chev{color:var(--text-muted);font-size:1rem;flex-shrink:0;}
+
+/* ── SKELETON LOADING ── */
+.skel-wrap{display:flex;flex-direction:column;gap:var(--s2);}
+.skel{position:relative;overflow:hidden;background:var(--panel);border-radius:var(--radius);}
+.skel::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);
+  animation:shimmer 1.4s infinite;
+}
+@keyframes shimmer{from{transform:translateX(-100%);}to{transform:translateX(100%);}}
+
+/* ── EMPTY STATES ── */
+.empty-state{text-align:center;padding:var(--s7) var(--s5);background:var(--white);border:1px dashed var(--border-strong);border-radius:var(--radius);}
+.empty-state-icon{margin-bottom:var(--s4);line-height:0;}
+.empty-state-icon svg{width:36px;height:36px;fill:none;stroke:var(--text-muted);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:0.7;}
+.empty-state-title{font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--augusta-deep);margin-bottom:var(--s1);}
+.empty-state-sub{font-size:0.82rem;color:var(--text-muted);line-height:1.5;max-width:340px;margin:0 auto var(--s4);}
+
+/* ── MICRO-INTERACTIONS + DEPTH ── */
+.panel,.scorecard-hero{box-shadow:inset 0 1px 0 rgba(255,255,255,0.04),var(--shadow-sm);}
+.modal-box{box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 24px 80px rgba(0,0,0,0.6);}
+.filter-pill{transition:all 0.15s;}
+.filter-pill:active,.log-btn:active,.auth-submit:active{transform:scale(0.98);}
+.lb-row{transition:background 0.12s;}
+.lb-row:hover{background:var(--ink-soft);}
+:focus-visible{outline:2px solid var(--augusta-light);outline-offset:2px;border-radius:4px;}
 
 /* ── LOG FORM ── */
 .log-panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm);}
@@ -641,7 +689,15 @@ header::before{
   .profile-sidenav-item.active{border-bottom:2px solid var(--gold);background:var(--panel);}
 }
 /* Mobile nav — hidden by default, shown only on mobile */
-.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);z-index:9000;padding:6px 0 env(safe-area-inset-bottom,0);}
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--ink);border-top:1px solid var(--border);z-index:9000;padding:6px 0 env(safe-area-inset-bottom,0);box-shadow:0 -6px 24px rgba(0,0,0,0.4);}
+.mobile-nav-log{
+  width:50px;height:50px;border-radius:50%;flex-shrink:0;
+  background:var(--augusta);color:var(--ink);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:-24px;box-shadow:0 4px 16px rgba(0,0,0,0.45);
+  transition:transform 0.15s,background 0.15s;
+}
+.mobile-nav-log:active{transform:scale(0.94);}
 .mobile-nav-inner{display:flex;justify-content:space-around;align-items:center;}
 .mobile-nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 8px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-family:'Inter',sans-serif;font-size:0.55rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;min-width:48px;transition:color 0.15s;}
 .mobile-nav-btn.active{color:var(--augusta);}
@@ -650,7 +706,9 @@ header::before{
 #mNavMenuBtn{display:none !important;}
 @media(max-width:768px){
   /* Navigation */
-  .mob-menu-toggle{display:flex !important;align-items:center;justify-content:center;}
+  .mob-menu-toggle{display:none !important;}
+  .mobile-nav{display:block;}
+  .container{padding-bottom:96px !important;}
   #appShell nav,#appShell .header-nav{display:none;}
   /* Header */
   .header-top{padding:0 12px;min-height:56px;}
@@ -1051,11 +1109,7 @@ html{overflow-x:hidden;}
         <span class="section-label">Recent Rounds</span>
         <span class="section-count" id="recentMeta">0 rounds</span>
       </div>
-      <div class="panel" style="padding:0;overflow:hidden;">
-        <table class="sc-table">
-          <thead><tr><th>Course</th><th>Score</th><th>+/−</th><th>Diff.</th><th></th></tr></thead>
-          <tbody id="roundsBody"></tbody>
-        </table>
+      <div id="roundsBody">
       </div>
     </div>
 
@@ -1386,7 +1440,7 @@ html{overflow-x:hidden;}
           <div class="lb-thead-sub" style="margin-top:4px;">All members · Lower is better</div>
         </div>
       </div>
-      <div id="lbBody"><div class="lb-empty">Loading…</div></div>
+      <div id="lbBody"><div class="skel-wrap"><div class="skel" style="height:52px;"></div><div class="skel" style="height:52px;"></div><div class="skel" style="height:52px;"></div></div></div>
     </div>
   </div>
 
@@ -1433,7 +1487,7 @@ html{overflow-x:hidden;}
       </div>
     </div>
     <div class="section-head" style="margin-bottom:18px;"><span class="section-label">My Societies</span></div>
-    <div id="societiesList"><div style="color:var(--text-muted);font-style:italic;font-size:0.88rem;">Loading…</div></div>
+    <div id="societiesList"><div class="skel-wrap"><div class="skel" style="height:64px;"></div><div class="skel" style="height:64px;"></div></div></div>
   </div>
 
   <!-- SOCIETY DETAIL -->
@@ -1501,9 +1555,9 @@ html{overflow-x:hidden;}
         </div>
         <div class="panel">
           <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Incoming</span></div>
-          <div id="incomingChallengesList"><div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;">Loading…</div></div>
+          <div id="incomingChallengesList"><div class="skel" style="height:80px;"></div></div>
           <div class="section-head" style="margin-bottom:12px;margin-top:20px;"><span class="section-label">My Challenges</span></div>
-          <div id="myChallengesList"><div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;">Loading…</div></div>
+          <div id="myChallengesList"><div class="skel" style="height:80px;"></div></div>
         </div>
       </div>
     </div>
@@ -1529,7 +1583,7 @@ html{overflow-x:hidden;}
         </div>
         <div class="panel">
           <div class="section-head" style="margin-bottom:18px;"><span class="section-label">Active Tournaments</span></div>
-          <div id="activeTourneyList"><div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;">Loading…</div></div>
+          <div id="activeTourneyList"><div class="skel-wrap"><div class="skel" style="height:64px;"></div><div class="skel" style="height:64px;"></div></div></div>
         </div>
       </div>
       <div id="tourneyDetail" style="display:none">
@@ -1859,6 +1913,17 @@ html{overflow-x:hidden;}
   <button class="mobile-menu-item" onclick="mobileMenuNav('profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></button>
 </div>
 
+<!-- Mobile bottom tab bar -->
+<nav class="mobile-nav" id="mobileTabBar">
+  <div class="mobile-nav-inner">
+    <button class="mobile-nav-btn active" id="mTabHome"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></button>
+    <button class="mobile-nav-btn" id="mTabCourses"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Courses</span></button>
+    <button class="mobile-nav-log" id="mTabLog" aria-label="Log a Round"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" fill="none" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+    <button class="mobile-nav-btn" id="mTabSocial"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Social</span></button>
+    <button class="mobile-nav-btn" id="mTabProfile"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></button>
+  </div>
+</nav>
+
 </div><!-- /appShell -->
 
 <script>
@@ -1926,6 +1991,14 @@ document.addEventListener('click',function(e){
   if(id==='navDashboard'){showSection('dashboard',e.target);return;}
   if(id==='navCourses'){showSection('courses',e.target);return;}
   if(id==='navLog'){openLogModal();return;}
+  // Mobile bottom tab bar
+  var mtab=e.target.closest('.mobile-nav-btn,.mobile-nav-log');
+  if(mtab){
+    var mid=mtab.id;
+    if(mid==='mTabLog'){openLogModal();return;}
+    var mmapNav={mTabHome:'dashboard',mTabCourses:'courses',mTabSocial:'social',mTabProfile:'profile'};
+    if(mmapNav[mid]){showSection(mmapNav[mid],null);return;}
+  }
   if(id==='navSocial'){showSection('social',e.target);return;}
   if(id==='navProfile'){showSection('profile',e.target);return;}
   // Stats / Leaderboard reachable via buttons (no longer top-nav)
@@ -2333,7 +2406,7 @@ async function renderCoursesBrowser(){
   if(!sb) return;
   var q=(document.getElementById('courseBrowserSearch')&&document.getElementById('courseBrowserSearch').value||'').toLowerCase();
   var grid=document.getElementById('coursesGrid');
-  grid.innerHTML='<div class="courses-empty">Loading courses…</div>';
+  grid.innerHTML='<div class="skel" style="height:220px;"></div>'.repeat(6);
   try{
     var query=sb.from('courses').select('id,name,location,county,country,par,yardage,rating,slope,holes,type').order('name').limit(200);
     if(q) query=query.or('name.ilike.*'+q+'*,location.ilike.*'+q+'*,county.ilike.*'+q+'*');
@@ -2453,7 +2526,7 @@ async function submitCourse(){
 
 // ── LEADERBOARD ───────────────────────────────────────────────────────────
 async function loadLeaderboard(){
-  document.getElementById('lbBody').innerHTML='<div class="lb-empty">Loading…</div>';
+  document.getElementById('lbBody').innerHTML=skel(6,52);
   var r=await sb.from('rounds').select('user_id,diff,score').order('user_id');
   if(r.error||!r.data){document.getElementById('lbBody').innerHTML='<div class="lb-empty">Could not load.</div>';return;}
   var map={};
@@ -2472,7 +2545,22 @@ async function loadLeaderboard(){
 }
 
 // ── RENDER ────────────────────────────────────────────────────────────────
-function renderAll(){ rHcp(); rRecent(); rHistory(); rChart(); renderDashboardExtras(); renderDashFeedSlice(); }
+function renderAll(){ rHcp(); rRecent(); rChart(); renderDashboardExtras(); renderDashFeedSlice(); }
+
+// ── UI HELPERS: skeletons + empty states ─────────────────────────────────
+function skel(n,h){
+  var s='';
+  for(var i=0;i<(n||3);i++){ s+='<div class="skel" style="height:'+(h||56)+'px;"></div>'; }
+  return '<div class="skel-wrap">'+s+'</div>';
+}
+function emptyState(iconSvg,title,sub,ctaHtml){
+  return '<div class="empty-state">'+
+    '<div class="empty-state-icon">'+iconSvg+'</div>'+
+    '<div class="empty-state-title">'+title+'</div>'+
+    '<div class="empty-state-sub">'+sub+'</div>'+
+    (ctaHtml||'')+
+  '</div>';
+}
 
 // ── DASHBOARD: FORM, TREND, GOALS ─────────────────────────────────────────
 function hcpAsOfDaysAgo(days){
@@ -2658,27 +2746,32 @@ function rRecent(){
   var meta=document.getElementById('recentMeta');
   var recent=rounds.slice(-10).reverse();
   meta.textContent=rounds.length+' round'+(rounds.length!==1?'s':'');
-  if(!recent.length){body.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa;padding:36px;font-style:italic;font-size:0.85rem;font-weight:300;">No rounds yet — click "Log a Round" to get started</td></tr>';return;}
+  if(!recent.length){
+    body.innerHTML=emptyState(
+      '<svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
+      'No rounds yet',
+      'Your scores and handicap will appear here once you log a round.',
+      '<button class="log-btn" onclick="openLogModal()" style="width:auto;padding:11px 28px;">Log Your First Round</button>'
+    );
+    return;
+  }
   var minS=Math.min.apply(null,rounds.map(function(r){return r.score;}));
   body.innerHTML=recent.map(function(r,i){
     var ov=r.score-r.par, ovS=ov===0?'E':(ov>0?'+'+ov:''+ov);
-    var cls=ov<0?'pill-under':ov>0?'pill-over':'pill-even';
+    var ovCol=ov<0?'var(--under)':ov>0?'var(--over)':'var(--gold)';
     var badge=(r.score===minS&&rounds.length>1)?'<span class="badge badge-gold">Best</span>':(i===0?'<span class="badge badge-new">Latest</span>':'');
-    return '<tr class="round-row" data-id="'+r.id+'" style="cursor:pointer;"><td><div class="td-course">'+r.course+'</div><div class="td-date">'+fDate(r.date)+'</div></td><td><span class="td-score">'+r.score+'</span></td><td><span class="pill '+cls+'">'+ovS+'</span></td><td style="font-size:0.8rem;font-weight:500;">'+parseFloat(r.diff).toFixed(1)+'</td><td style="text-align:right;">'+badge+' <span style="color:var(--text-muted);font-size:0.9rem;">›</span></td></tr>';
+    return '<div class="round-card round-row" data-id="'+r.id+'">'+
+      '<div class="rc-main">'+
+        '<div class="rc-course">'+r.course+' '+badge+'</div>'+
+        '<div class="rc-date">'+fDate(r.date)+(r.holes_played===9?' · 9 holes':'')+' · Diff '+parseFloat(r.diff).toFixed(1)+'</div>'+
+      '</div>'+
+      '<div class="rc-vspar" style="color:'+ovCol+';">'+ovS+'</div>'+
+      '<div class="rc-score">'+r.score+'</div>'+
+      '<div class="rc-chev">›</div>'+
+    '</div>';
   }).join('');
 }
 
-function rHistory(){
-  var body=document.getElementById('historyBody');
-  if(!body) return;
-  var all=rounds.slice().reverse();
-  if(!all.length){body.innerHTML='<tr><td colspan="7" style="text-align:center;color:#aaa;padding:36px;font-style:italic;">No history yet.</td></tr>';return;}
-  body.innerHTML=all.map(function(r){
-    var ov=r.score-r.par, ovS=ov===0?'E':(ov>0?'+'+ov:''+ov);
-    var cls=ov<0?'pill-under':ov>0?'pill-over':'pill-even';
-    return '<tr class="round-row" data-id="'+r.id+'" style="cursor:pointer;"><td><strong style="color:var(--augusta-deep);font-size:0.88rem;">'+r.course+'</strong></td><td style="font-size:0.75rem;color:var(--text-muted);font-weight:300;">'+fDate(r.date)+'</td><td>'+r.par+'</td><td><strong>'+r.score+'</strong></td><td><span class="pill '+cls+'">'+ovS+'</span></td><td style="font-size:0.8rem;font-weight:500;">'+parseFloat(r.diff).toFixed(1)+'</td><td style="text-align:right;color:var(--text-muted);">›</td></tr>';
-  }).join('');
-}
 
 function rChart(){
   var ctx=document.getElementById('trendChart').getContext('2d');
@@ -2689,7 +2782,7 @@ function rChart(){
     data:{
       labels:data.map(function(r){return r.course.length>14?r.course.slice(0,14)+'…':r.course;}),
       datasets:[
-        {label:'Score',data:data.map(function(r){return r.score;}),borderColor:'#1a3a2a',backgroundColor:'rgba(26,58,42,0.06)',pointBackgroundColor:'#1a3a2a',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5,pointHoverRadius:7,borderWidth:2,tension:0.35,fill:true},
+        {label:'Score',data:data.map(function(r){return r.score;}),borderColor:'#2f9e5b',backgroundColor:'rgba(47,158,91,0.08)',pointBackgroundColor:'#2f9e5b',pointBorderColor:'#0d0e10',pointBorderWidth:2,pointRadius:5,pointHoverRadius:7,borderWidth:2,tension:0.35,fill:true},
         {label:'Par',data:data.map(function(r){return r.par;}),borderColor:'#c9a84c',borderWidth:1.5,borderDash:[5,4],pointRadius:0,tension:0,fill:false}
       ]
     },
@@ -2697,11 +2790,11 @@ function rChart(){
       responsive:true,interaction:{mode:'index',intersect:false},
       plugins:{
         legend:{labels:{font:{family:'Inter',size:11,weight:'600'},color:'#7a9a8a',padding:20}},
-        tooltip:{backgroundColor:'#0f2419',titleFont:{family:'Inter',size:14},bodyFont:{family:'Inter',size:12},padding:12,cornerRadius:2,borderColor:'rgba(201,168,76,0.3)',borderWidth:1}
+        tooltip:{backgroundColor:'#161719',titleFont:{family:'Inter',size:14},bodyFont:{family:'Inter',size:12},padding:12,cornerRadius:2,borderColor:'rgba(47,158,91,0.3)',borderWidth:1}
       },
       scales:{
-        x:{ticks:{font:{family:'Inter',size:10,weight:'500'},color:'#aaa',maxRotation:30},grid:{color:'rgba(0,0,0,0.04)'},border:{display:false}},
-        y:{ticks:{font:{family:'Inter',size:10,weight:'500'},color:'#aaa'},grid:{color:'rgba(0,0,0,0.04)'},border:{display:false}}
+        x:{ticks:{font:{family:'Inter',size:10,weight:'500'},color:'#aaa',maxRotation:30},grid:{color:'rgba(255,255,255,0.05)'},border:{display:false}},
+        y:{ticks:{font:{family:'Inter',size:10,weight:'500'},color:'#aaa'},grid:{color:'rgba(255,255,255,0.05)'},border:{display:false}}
       }
     }
   });
@@ -2737,9 +2830,9 @@ function renderHcpHistory(){
     type:'line',
     data:{
       labels:labels,
-      datasets:[{label:'Handicap Index',data:data,borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,0.08)',pointBackgroundColor:'#c9a84c',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:4,borderWidth:2,tension:0.35,fill:true}]
+      datasets:[{label:'Handicap Index',data:data,borderColor:'#c9a84c',backgroundColor:'rgba(47,158,91,0.08)',pointBackgroundColor:'#c9a84c',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:4,borderWidth:2,tension:0.35,fill:true}]
     },
-    options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f2419',bodyFont:{family:'Inter',size:12},padding:10,cornerRadius:2}},scales:{x:{ticks:{font:{family:'Inter',size:10,weight:'600'},color:'#aaa',maxRotation:30},grid:{color:'rgba(0,0,0,0.04)'},border:{display:false}},y:{ticks:{font:{family:'Inter',size:10,weight:'600'},color:'#aaa'},grid:{color:'rgba(0,0,0,0.04)'},border:{display:false},reverse:false}}}
+    options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'#161719',bodyFont:{family:'Inter',size:12},padding:10,cornerRadius:2}},scales:{x:{ticks:{font:{family:'Inter',size:10,weight:'600'},color:'#aaa',maxRotation:30},grid:{color:'rgba(255,255,255,0.05)'},border:{display:false}},y:{ticks:{font:{family:'Inter',size:10,weight:'600'},color:'#aaa'},grid:{color:'rgba(255,255,255,0.05)'},border:{display:false},reverse:false}}}
   });
 }
 
@@ -2761,11 +2854,11 @@ function renderBreakdown(){
   if(breakdownChartObj) breakdownChartObj.destroy();
   var labels=['Eagle or better','Birdie','Par','Bogey','Double','Triple+'];
   var values=[counts.eagle,counts.birdie,counts.par,counts.bogey,counts.double,counts.worse];
-  var colors=['#c9a84c','#4a7c59','#1a3a2a','#8b6b4a','#c0392b','#7a3a2a'];
+  var colors=['#e8c97a','#5ad65a','#2f9e5b','#b08a5a','#ff6b6b','#a04545'];
   breakdownChartObj=new Chart(ctx,{
     type:'doughnut',
-    data:{labels:labels,datasets:[{data:values,backgroundColor:colors,borderWidth:2,borderColor:'#fff'}]},
-    options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f2419',bodyFont:{family:'Inter',size:12},padding:10,cornerRadius:2}},cutout:'60%'}
+    data:{labels:labels,datasets:[{data:values,backgroundColor:colors,borderWidth:2,borderColor:'#161719'}]},
+    options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#161719',bodyFont:{family:'Inter',size:12},padding:10,cornerRadius:2}},cutout:'60%'}
   });
   // Legend
   var leg=document.getElementById('breakdownLegend');
@@ -2923,7 +3016,7 @@ function setStatChart(type,btn){
 function renderStatTrend(type){
   var ctx=document.getElementById('statTrendChart').getContext('2d');
   if(statTrendChartObj) statTrendChartObj.destroy();
-  var map={putts:{key:'putts',label:'Putts',color:'#1a3a2a'},fairways:{key:'fairways_hit',label:'Fairways Hit',color:'#c9a84c'},gir:{key:'greens_in_regulation',label:'Greens in Regulation',color:'#4a7c59'},penalties:{key:'penalties',label:'Penalties',color:'#c0392b'}};
+  var map={putts:{key:'putts',label:'Putts',color:'#2f9e5b'},fairways:{key:'fairways_hit',label:'Fairways Hit',color:'#e8c97a'},gir:{key:'greens_in_regulation',label:'Greens in Regulation',color:'#5ad65a'},penalties:{key:'penalties',label:'Penalties',color:'#ff6b6b'}};
   var cfg=map[type];
   var data=rounds.filter(function(r){return r[cfg.key]!=null;});
   statTrendChartObj=new Chart(ctx,{
@@ -2932,7 +3025,7 @@ function renderStatTrend(type){
       labels:data.map(function(r){return r.course.length>12?r.course.slice(0,12)+'…':r.course;}),
       datasets:[{label:cfg.label,data:data.map(function(r){return r[cfg.key];}),backgroundColor:cfg.color+'33',borderColor:cfg.color,borderWidth:2,borderRadius:2}]
     },
-    options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0f2419',bodyFont:{family:'Inter',size:12},padding:10,cornerRadius:2}},scales:{x:{ticks:{font:{family:'Inter',size:10,weight:'600'},color:'#aaa',maxRotation:30},grid:{display:false},border:{display:false}},y:{ticks:{font:{family:'Inter',size:10,weight:'600'},color:'#aaa'},grid:{color:'rgba(0,0,0,0.04)'},border:{display:false}}}}
+    options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#161719',bodyFont:{family:'Inter',size:12},padding:10,cornerRadius:2}},scales:{x:{ticks:{font:{family:'Inter',size:10,weight:'600'},color:'#aaa',maxRotation:30},grid:{display:false},border:{display:false}},y:{ticks:{font:{family:'Inter',size:10,weight:'600'},color:'#aaa'},grid:{color:'rgba(255,255,255,0.05)'},border:{display:false}}}}
   });
 }
 
@@ -3215,7 +3308,15 @@ async function loadSocieties(){
 
 function renderSocietiesList(){
   var el=document.getElementById('societiesList');
-  if(!societies.length){el.innerHTML='<div style="color:var(--text-muted);font-style:italic;font-size:0.88rem;padding:20px 0;">You haven\'t joined any societies yet. Create one or enter an invite code.</div>';return;}
+  if(!societies.length){
+    el.innerHTML=emptyState(
+      '<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+      'No societies yet',
+      'Create a society for your regular group, or join one with an invite code above.',
+      ''
+    );
+    return;
+  }
   el.innerHTML=societies.map(function(s){
     return '<div class="society-card" data-id="'+s.id+'" data-name="'+s.name+'" data-code="'+s.invite_code+'">'+
       '<div style="width:40px;height:40px;background:var(--augusta);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"</div>'+
@@ -3448,16 +3549,16 @@ function drawScorecard(r){
   canvas.width=W; canvas.height=H;
   var ctx=canvas.getContext('2d');
   // Background
-  ctx.fillStyle='#1a3a2a';
+  ctx.fillStyle='#0d0e10';
   ctx.fillRect(0,0,W,H);
-  // Gold accent bar
-  ctx.fillStyle='#c9a84c';
+  // Accent bar
+  ctx.fillStyle='#2f9e5b';
   ctx.fillRect(0,0,W,4);
   // Logo text
-  ctx.fillStyle='#c9a84c';
+  ctx.fillStyle='#2f9e5b';
   ctx.font='bold 13px "Inter", sans-serif';
   ctx.letterSpacing='3px';
-  ctx.fillText('THE GOLF LOG',24,32);
+  ctx.fillText('LMG',24,32);
   // Course name
   ctx.fillStyle='#ffffff';
   ctx.font='bold 26px "Inter", serif';
@@ -3491,14 +3592,14 @@ function drawScorecard(r){
   });
   ctx.textAlign='left';
   // Bottom bar
-  ctx.fillStyle='rgba(201,168,76,0.15)';
+  ctx.fillStyle='rgba(47,158,91,0.15)';
   ctx.fillRect(0,H-50,W,50);
   ctx.fillStyle='rgba(255,255,255,0.4)';
   ctx.font='11px "Inter", sans-serif';
-  ctx.fillText('Logged on The Golf Log · '+window.location.hostname,24,H-18);
+  ctx.fillText('Logged on LMG · '+window.location.hostname,24,H-18);
   // Score colour indicator
   var ov=r.score-r.par;
-  ctx.fillStyle=ov<0?'#4a7c59':ov>0?'#c0392b':'#c9a84c';
+  ctx.fillStyle=ov<0?'#5ad65a':ov>0?'#ff6b6b':'#e8c97a';
   ctx.fillRect(W-8,0,8,H);
 }
 
@@ -3608,7 +3709,7 @@ function initCoursePhotoInput(){
 async function loadCoursePhotos(courseId){
   var el=document.getElementById('coursePhotoGallery');
   if(!el) return;
-  el.innerHTML='<div style="font-size:0.78rem;color:var(--text-muted);font-style:italic;">Loading…</div>';
+  el.innerHTML='<div class="skel" style="width:72px;height:72px;"></div><div class="skel" style="width:72px;height:72px;"></div><div class="skel" style="width:72px;height:72px;"></div>';
   var r=await sb.from('course_photos').select('*').eq('course_id',courseId).order('created_at',{ascending:false});
   var photos=(r.data)||[];
   if(!photos.length){ el.innerHTML='<div style="font-size:0.78rem;color:var(--text-muted);font-style:italic;">No photos yet — be the first to add one.</div>'; return; }
@@ -3920,7 +4021,7 @@ var challengeOpponent_=null, challengeCourse_=null, currentTourney_=null, member
 // ── ACTIVITY FEED ─────────────────────────────────────────────────────────
 async function loadFeed(){
   var el=document.getElementById('feedList');
-  el.innerHTML='<div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;padding:20px 0;">Loading…</div>';
+  el.innerHTML=skel(4,96);
 
   var query=sb.from('rounds').select('id,user_id,course,score,par,diff,date,holes_played,notes').order('date',{ascending:false}).limit(50);
 
@@ -3929,12 +4030,12 @@ async function loadFeed(){
     var uidsToShow=Array.from(followingSet);
     uidsToShow.push(currentUser.id); // always show own rounds
     if(uidsToShow.length===1&&followingSet.size===0){
-      el.innerHTML='<div style="padding:32px;text-align:center;">'+
-        '<div style="font-size:1.5rem;margin-bottom:12px;">👋</div>'+
-        '<div style="font-weight:600;color:var(--augusta-deep);margin-bottom:8px;">Follow some members to see their rounds here</div>'+
-        '<div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:20px;">Head to Members to find people to follow</div>'+
-        '<button class="log-btn" onclick="showSocialTab(\'sfMembers\')" style="width:auto;padding:10px 24px;">Find Members</button>'+
-      '</div>';
+      el.innerHTML=emptyState(
+        '<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+        'Your feed is waiting',
+        'Follow other golfers and their rounds will show up here.',
+        '<button class="log-btn" onclick="showSocialTab(\'sfMembers\')" style="width:auto;padding:11px 28px;">Find Members</button>'
+      );
       return;
     }
     query=query.in('user_id',uidsToShow);
@@ -3942,7 +4043,12 @@ async function loadFeed(){
 
   var r=await query;
   if(r.error||!r.data||!r.data.length){
-    el.innerHTML='<div style="color:var(--text-muted);font-style:italic;font-size:0.85rem;padding:20px 0;">'+(feedFilter==='following'?'No rounds yet from people you follow.':'No activity yet.')+'</div>';
+    el.innerHTML=emptyState(
+      '<svg viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
+      feedFilter==='following'?'Quiet out there':'No activity yet',
+      feedFilter==='following'?'No rounds yet from people you follow — check back after the weekend.':'Be the first to log a round and get the feed going.',
+      ''
+    );
     return;
   }
 
@@ -4201,66 +4307,6 @@ async function submitTourneyScore(){
   await loadTourneyLb(currentTourney_.id,currentTourney_.format);
 }
 
-// ── COURSE OF THE MONTH ───────────────────────────────────────────────────
-async function loadCourseOfMonth(){
-  var month=new Date();
-  var monthStr=month.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-  document.getElementById('cotmMonthLabel').textContent=monthStr;
-  var el=document.getElementById('cotmContent');
-  el.innerHTML='<div style="color:var(--text-muted);font-style:italic;">Loading…</div>';
-  // Get all rounds from this month
-  var start=new Date(month.getFullYear(),month.getMonth(),1).toISOString().split('T')[0];
-  var end=new Date(month.getFullYear(),month.getMonth()+1,0).toISOString().split('T')[0];
-  var r=await sb.from('rounds').select('course,score,par,user_id').gte('date',start).lte('date',end);
-  var rounds_=r.data||[];
-  // Get review averages
-  var revR=await sb.from('course_reviews').select('course_id,overall,courses(name)');
-  var revMap={};
-  (revR.data||[]).forEach(function(rv){
-    var cname=rv.courses&&rv.courses.name;
-    if(!cname) return;
-    if(!revMap[cname]) revMap[cname]={sum:0,count:0};
-    if(rv.overall){revMap[cname].sum+=rv.overall;revMap[cname].count++;}
-  });
-  // Count plays this month
-  var playMap={};
-  rounds_.forEach(function(r){
-    if(!playMap[r.course]) playMap[r.course]={plays:0,scores:[],course:r.course};
-    playMap[r.course].plays++;
-    playMap[r.course].scores.push(r.score);
-  });
-  // Score each course: plays*2 + avg_rating*3
-  var ranked=Object.values(playMap).map(function(c){
-    var rv=revMap[c.course];
-    var avgRating=rv&&rv.count?rv.sum/rv.count:0;
-    var score=c.plays*2+avgRating*3;
-    var avgScore=Math.round(c.scores.reduce(function(a,b){return a+b;},0)/c.scores.length);
-    return{name:c.course,plays:c.plays,avgRating:avgRating,score:score,avgScore:avgScore};
-  }).sort(function(a,b){return b.score-a.score;});
-  if(!ranked.length){el.innerHTML='<div style="color:var(--text-muted);font-style:italic;font-size:0.88rem;">No rounds logged this month yet.</div>';return;}
-  var winner=ranked[0];
-  var stars=winner.avgRating?'★'.repeat(Math.round(winner.avgRating))+'☆'.repeat(5-Math.round(winner.avgRating)):'Not yet rated';
-  el.innerHTML='<div class="cotm-card">'+
-    '<div class="cotm-rank">⭐ Course of the Month — '+monthStr+'</div>'+
-    '<div class="cotm-name">'+winner.name+'</div>'+
-    '<div style="display:flex;gap:24px;margin-top:16px;">'+
-      '<div><div style="font-family:\'Inter\',serif;font-size:2rem;font-weight:700;">'+winner.plays+'</div><div style="font-family:\'Inter\',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;opacity:0.6;">Rounds This Month</div></div>'+
-      '<div><div style="font-family:\'Inter\',serif;font-size:2rem;font-weight:700;">'+winner.avgScore+'</div><div style="font-family:\'Inter\',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;opacity:0.6;">Avg Score</div></div>'+
-      '<div><div style="color:var(--gold);font-size:1.1rem;margin-bottom:4px;">'+stars+'</div><div style="font-family:\'Inter\',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;opacity:0.6;">Member Rating</div></div>'+
-    '</div>'+
-  '</div>'+
-  (ranked.length>1?'<div class="section-head" style="margin-bottom:14px;"><span class="section-label">Runners Up</span></div>'+
-  '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">'+
-  ranked.slice(1,4).map(function(c,i){
-    var rv=c.avgRating?'★'.repeat(Math.round(c.avgRating))+'☆'.repeat(5-Math.round(c.avgRating)):'—';
-    return '<div class="panel" style="text-align:center;padding:16px;">'+
-      '<div style="font-family:\'Inter\',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;">#'+(i+2)+'</div>'+
-      '<div style="font-weight:700;color:var(--augusta-deep);font-size:0.88rem;margin-bottom:8px;">'+c.name+'</div>'+
-      '<div style="font-size:0.8rem;color:var(--text-muted);">'+c.plays+' rounds · '+rv+'</div>'+
-    '</div>';
-  }).join('')+'</div>':'');
-}
-
 // ── PHASE 8: PRACTICAL TOOLS ──────────────────────────────────────────────
 
 // ── BAG TRACKER ───────────────────────────────────────────────────────────
@@ -4514,6 +4560,10 @@ function showSection(s,btn,skipHistory){
     var map={dashboard:'navDashboard',courses:'navCourses',social:'navSocial',profile:'navProfile',stats:'navDashboard'};
     var nb=document.getElementById(map[s]); if(nb) nb.classList.add('active');
   }
+  // Sync mobile bottom tab bar
+  document.querySelectorAll('.mobile-nav-btn').forEach(function(b){b.classList.remove('active');});
+  var mTabMap={dashboard:'mTabHome',courses:'mTabCourses',social:'mTabSocial',profile:'mTabProfile',stats:'mTabHome'};
+  var mt=document.getElementById(mTabMap[s]); if(mt) mt.classList.add('active');
   // Update URL hash
   if(!skipHistory) history.pushState({section:s},'','#'+s);
   if(s==='courses') renderCoursesBrowser();
