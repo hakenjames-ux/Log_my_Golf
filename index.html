@@ -1746,7 +1746,7 @@ html{overflow-x:hidden;}
 <div class="modal-overlay" id="logRoundModal" style="display:none;align-items:flex-start;padding-top:40px;">
   <div class="modal-box" style="max-width:560px;max-height:90vh;overflow-y:auto;">
     <button class="modal-close" id="closeLogModalBtn">✕</button>
-    <div class="modal-title">Log a Round</div>
+    <div class="modal-title" id="logModalTitle">Log a Round</div>
     <div class="modal-sub">Record your round — your handicap will update automatically</div>
 
     <div class="form-group">
@@ -1854,7 +1854,8 @@ html{overflow-x:hidden;}
     <!-- Notes -->
     <div id="rdNotes" style="display:none;background:var(--ink-soft);border-left:3px solid var(--gold);border-radius:var(--radius);padding:12px 14px;font-size:0.85rem;color:var(--text-mid);font-style:italic;line-height:1.5;margin-bottom:16px;"></div>
 
-    <!-- Delete -->
+    <!-- Actions -->
+    <button class="log-btn" id="rdEditBtn" style="width:100%;margin-bottom:10px;">Edit Round</button>
     <button class="log-btn" id="rdDeleteBtn" style="background:none;border:1px solid var(--border);color:var(--over);width:100%;">Delete this round</button>
   </div>
 </div>
@@ -2073,6 +2074,7 @@ document.addEventListener('click',function(e){
   var rrow=e.target.closest('.round-row');
   if(rrow&&rrow.dataset.id){openRoundModal(rrow.dataset.id);return;}
   if(id==='closeRoundDetailBtn'||id==='roundDetailModal'){closeRoundModal();return;}
+  if(id==='rdEditBtn'){editCurrentRound();return;}
   if(id==='rdDeleteBtn'){confirmDeleteCurrentRound();return;}
   if(id==='addCoursePhotoBtn'){document.getElementById('coursePhotoInput').click();return;}
   if(id==='addRoundPhotoBtn'){document.getElementById('roundPhotoInput').click();return;}
@@ -2250,10 +2252,25 @@ async function logRound(){
   var gir=document.getElementById('fGIR').value?parseInt(document.getElementById('fGIR').value):null;
   var penalties=document.getElementById('fPenalties').value?parseInt(document.getElementById('fPenalties').value):null;
   var notes=document.getElementById('fNotes')?document.getElementById('fNotes').value.trim()||null:null;
-  var r=await sb.from('rounds').insert({user_id:currentUser.id,course:selCourse_.name,date:date,par:par,score:total,rating:rating,slope:slope,diff:diff,holes_played:holes,putts:putts,fairways_hit:fairways,greens_in_regulation:gir,penalties:penalties,notes:notes}).select().single();
-  btn.innerHTML='Record Round'; btn.disabled=false;
+  var fields={course:selCourse_.name,date:date,par:par,score:total,rating:rating,slope:slope,diff:diff,holes_played:holes,putts:putts,fairways_hit:fairways,greens_in_regulation:gir,penalties:penalties,notes:notes};
+  var r;
+  if(editingRoundId){
+    r=await sb.from('rounds').update(fields).eq('id',editingRoundId).eq('user_id',currentUser.id).select().single();
+  } else {
+    fields.user_id=currentUser.id;
+    r=await sb.from('rounds').insert(fields).select().single();
+  }
+  btn.innerHTML=editingRoundId?'Save Changes':'Record Round'; btn.disabled=false;
   if(r.error){toast('Error: '+r.error.message);return;}
-  rounds.push(r.data); rounds.sort(function(a,b){return a.date.localeCompare(b.date);});
+  if(editingRoundId){
+    var ei=rounds.findIndex(function(x){return x.id===editingRoundId;});
+    if(ei>=0) rounds[ei]=r.data; else rounds.push(r.data);
+  } else {
+    rounds.push(r.data);
+  }
+  rounds.sort(function(a,b){return a.date.localeCompare(b.date);});
+  var wasEdit=!!editingRoundId;
+  editingRoundId=null;
   // Capture course + photos before the form resets
   var photoCourseId=selCourse_.id, photoCourseName=selCourse_.name;
   var photosToUpload=pendingRoundPhotos.slice();
@@ -2273,7 +2290,7 @@ async function logRound(){
   if(document.getElementById('fNotes')) document.getElementById('fNotes').value='';
   clearRoundPhotos();
   closeLogModal();
-  renderAll(); toast('Round recorded!');
+  renderAll(); toast(wasEdit?'Round updated ✓':'Round recorded!');
   // Upload any attached photos to the course gallery (and the user's profile)
   if(photosToUpload.length){
     toast('Uploading '+photosToUpload.length+' photo'+(photosToUpload.length>1?'s':'')+'…');
@@ -2339,6 +2356,60 @@ async function confirmDeleteCurrentRound(){
   var id=currentRoundId;
   closeRoundModal();
   await deleteRound(id);
+}
+
+// ── EDIT A ROUND (reuses the Log a Round modal) ───────────────────────────
+var editingRoundId=null;
+
+function editCurrentRound(){
+  if(!currentRoundId) return;
+  var r=rounds.find(function(x){return x.id===currentRoundId;});
+  if(!r) return;
+  closeRoundModal();
+  openLogModalForEdit(r);
+}
+
+function openLogModalForEdit(r){
+  editingRoundId=r.id;
+  // Open the modal but in edit mode (no reset to today's date)
+  document.getElementById('logRoundModal').style.display='flex';
+  clearRoundPhotos();
+  initRoundPhotoInput();
+  document.getElementById('logModalTitle').textContent='Edit Round';
+  document.getElementById('submitBtn').textContent='Save Changes';
+  // Course (rounds only store the name; rebuild a minimal selection object)
+  selCourse_={id:r.course_id||null,name:r.course,par:r.par,rating:r.rating,slope:r.slope};
+  document.getElementById('fCourseSearch').value='';
+  document.getElementById('selectedCourseName').textContent=r.course;
+  document.getElementById('selectedCourseDisplay').style.display='block';
+  var dd=document.getElementById('courseDropdown'); if(dd) dd.classList.remove('open');
+  // Core fields
+  document.getElementById('fDate').value=r.date?r.date.slice(0,10):'';
+  document.getElementById('fHoles').value=(r.holes_played===9?'9':'18');
+  document.getElementById('fTotal').value=r.score;
+  document.getElementById('fNotes').value=r.notes||'';
+  // Course details
+  document.getElementById('fPar').value=r.par;
+  document.getElementById('fRating').value=r.rating||'';
+  document.getElementById('fSlope').value=r.slope||'';
+  // Optional stats
+  document.getElementById('fPutts').value=r.putts!=null?r.putts:'';
+  document.getElementById('fFairways').value=r.fairways_hit!=null?r.fairways_hit:'';
+  document.getElementById('fGIR').value=r.greens_in_regulation!=null?r.greens_in_regulation:'';
+  document.getElementById('fPenalties').value=r.penalties!=null?r.penalties:'';
+  // Clear any stale hole-by-hole inputs (edit uses the total directly)
+  for(var i=1;i<=18;i++){var h=document.getElementById('h'+i);if(h)h.value='';}
+  // Expand any optional panel that has data so the user can see/change it
+  expandPanelIf('courseDetailsPanel','toggleCourseDetails', r.rating||r.slope);
+  expandPanelIf('optStatsPanel','toggleOptStats', r.putts!=null||r.fairways_hit!=null||r.greens_in_regulation!=null||r.penalties!=null);
+}
+
+function expandPanelIf(panelId,btnId,cond){
+  var p=document.getElementById(panelId), b=document.getElementById(btnId);
+  if(!p||!b) return;
+  var open=p.style.display==='block';
+  if(cond&&!open){ p.style.display='block'; b.classList.add('open'); b.innerHTML=b.innerHTML.replace('＋','－'); }
+  else if(!cond&&open){ p.style.display='none'; b.classList.remove('open'); b.innerHTML=b.innerHTML.replace('－','＋'); }
 }
 async function clearAllRounds(){
   if(!confirm('Delete all rounds? Cannot be undone.')) return;
@@ -4810,6 +4881,17 @@ async function runMemberSearch(q){
 
 // ── LOG MODAL ─────────────────────────────────────────────────────────────
 function openLogModal(){
+  // Always start fresh (clears any leftover edit state)
+  editingRoundId=null;
+  document.getElementById('logModalTitle').textContent='Log a Round';
+  document.getElementById('submitBtn').textContent='Record Round';
+  clearCourseSelection();
+  ['fTotal','fNotes','fRating','fSlope','fPutts','fFairways','fGIR','fPenalties'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('fHoles').value='18';
+  document.getElementById('fPar').value='72';
+  for(var i=1;i<=18;i++){var h=document.getElementById('h'+i);if(h)h.value='';}
+  ['courseDetailsPanel','optStatsPanel','holeByHolePanel'].forEach(function(id){var p=document.getElementById(id);if(p)p.style.display='none';});
+  ['toggleCourseDetails','toggleOptStats','toggleHoleByHole'].forEach(function(id){var b=document.getElementById(id);if(b){b.classList.remove('open');b.innerHTML=b.innerHTML.replace('－','＋');}});
   document.getElementById('logRoundModal').style.display='flex';
   document.getElementById('fDate').valueAsDate=new Date();
   clearRoundPhotos();
@@ -4817,6 +4899,9 @@ function openLogModal(){
 }
 function closeLogModal(){
   document.getElementById('logRoundModal').style.display='none';
+  editingRoundId=null;
+  document.getElementById('logModalTitle').textContent='Log a Round';
+  document.getElementById('submitBtn').textContent='Record Round';
 }
 
 // ── FEED FILTER ───────────────────────────────────────────────────────────
