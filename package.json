@@ -1,0 +1,23 @@
+{
+  "name": "log-my-golf",
+  "version": "1.0.0",
+  "description": "Track your golf scores, handicap and rounds. Follow other golfers and compete.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "icons": "node assets/gen-icons.mjs",
+    "build": "node scripts/build.mjs",
+    "cap:sync": "npm run build && npx cap sync",
+    "cap:ios": "npm run build && npx cap sync ios && npx cap open ios",
+    "cap:android": "npm run build && npx cap sync android && npx cap open android"
+  },
+  "dependencies": {
+    "sharp": "^0.35.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/ios": "^6.1.2",
+    "@capacitor/android": "^6.1.2"
+  }
+}
