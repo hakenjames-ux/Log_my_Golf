@@ -12,12 +12,13 @@
     "cap:android": "npm run build && npx cap sync android && npx cap open android"
   },
   "dependencies": {
+    "@sentry/browser": "^10.62.0",
     "sharp": "^0.35.2"
   },
   "devDependencies": {
+    "@capacitor/android": "^6.1.2",
     "@capacitor/cli": "^6.1.2",
     "@capacitor/core": "^6.1.2",
-    "@capacitor/ios": "^6.1.2",
-    "@capacitor/android": "^6.1.2"
+    "@capacitor/ios": "^6.1.2"
   }
 }
