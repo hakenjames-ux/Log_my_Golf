@@ -36,6 +36,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<!-- Error monitoring (Sentry). Paste your DSN below to activate; stays dormant until then. -->
+<script src="https://cdn.jsdelivr.net/npm/@sentry/browser@8/build/bundle.min.js" crossorigin="anonymous"></script>
+<script>
+(function(){
+  // 1. Create a free project at https://sentry.io (platform: "Browser/JavaScript"),
+  //    then paste its DSN here. Until then, monitoring is off (no-op).
+  var SENTRY_DSN = 'https://e3c79d563fe4c76fa254c4a03f132396@o4511650362425344.ingest.de.sentry.io/4511650384248912';
+  if (!SENTRY_DSN || typeof Sentry === 'undefined') return;
+  var host = location.hostname;
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    environment: host === 'logmygolf.com' ? 'production'
+               : (host === 'localhost' || host === '127.0.0.1') ? 'development'
+               : 'preview',
+    release: 'log-my-golf@1.0.0',
+    tracesSampleRate: 0.1,        // 10% performance traces
+    sendDefaultPii: false,        // don't attach IPs / user data automatically
+    ignoreErrors: ['ResizeObserver loop limit exceeded']
+  });
+})();
+</script>
 <style>
 :root {
   /* Deep fairway green on near-black */
@@ -2066,6 +2087,7 @@ setTimeout(function(){
 
 async function bootApp(u){
   currentUser=u;
+  if(typeof Sentry!=='undefined'&&Sentry.getClient&&Sentry.getClient()){ Sentry.setUser({id:u.id}); }
   var name=u.user_metadata&&u.user_metadata.display_name ? u.user_metadata.display_name : u.email.split('@')[0];
   document.getElementById("userPill").textContent=name;
   var drawerName=document.getElementById("drawerUserName"); if(drawerName) drawerName.textContent=name;
@@ -2291,7 +2313,7 @@ async function doRegister(){
   if(r.error) showAuthError(r.error.message);
   else showAuthSuccess('Account created! Check your email to confirm, then sign in.');
 }
-async function doSignOut(){ await sb.auth.signOut(); }
+async function doSignOut(){ if(typeof Sentry!=='undefined'&&Sentry.setUser){ Sentry.setUser(null); } await sb.auth.signOut(); }
 
 // ── LOG FORM EXPANDERS ────────────────────────────────────────────────────
 function toggleExpand(panelId, btnId){

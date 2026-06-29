@@ -46,8 +46,12 @@ Then in the **dashboard**: Authentication → enable **Leaked password protectio
 ### 2c. Fill in the legal placeholders ⬜
 In `privacy.html` and `terms.html`, replace `[Your name / company]`, `[address]`, `[your jurisdiction]`. Set up a real **support@logmygolf.com** inbox. Have both reviewed for your jurisdiction (UK/EU GDPR especially).
 
-### 2d. Add error monitoring ⬜ (strongly recommended)
-Right now a crash on a user's phone is invisible to you. Add [Sentry](https://sentry.io) (free tier) — one `<script>` tag in `<head>`. ~15 min.
+### 2d. Activate error monitoring ⬜ (strongly recommended)
+Sentry is **already wired into `index.html`** (SDK + init + user tagging) — it just stays dormant until you add a DSN:
+1. Create a free project at [sentry.io](https://sentry.io) → platform **Browser/JavaScript**.
+2. Copy the project's **DSN**.
+3. In `index.html`, find `var SENTRY_DSN = ''` and paste your DSN between the quotes.
+That's it — errors and unhandled promise rejections will report automatically, tagged with the user's id and whether it's production vs preview.
 
 ### 2e. Tidy the database ⬜ (optional)
 Your Supabase project also holds tables from another app (`companies`, `incomes`, `outgoings`, `favourite_outgoings`). Consider moving those to a separate project so GolfTracker only contains golf data.
