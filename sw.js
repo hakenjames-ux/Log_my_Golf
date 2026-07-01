@@ -8,7 +8,7 @@
    - Icons/assets: cache-first (rarely change).
    - Supabase API and other cross-origin calls: never cached.
 */
-const VERSION = 'lmg-v2';
+const VERSION = 'lmg-v3';
 const SHELL = `${VERSION}-shell`;
 const STATIC = `${VERSION}-static`;
 
@@ -59,9 +59,13 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
 
   // App-shell navigations + app code (/js/, /css/): network-first, cache fallback.
+  // Note: only the root navigation is cached under the '/index.html' shell key —
+  // other pages (courses/*, privacy, terms) cache under their own URL so they
+  // can't poison the offline app shell.
   const isAppCode = url.pathname.startsWith('/js/') || url.pathname.startsWith('/css/');
   if (request.mode === 'navigate' || isAppCode) {
-    const cacheKey = request.mode === 'navigate' ? '/index.html' : request;
+    const isRoot = url.pathname === '/' || url.pathname === '/index.html';
+    const cacheKey = request.mode === 'navigate' && isRoot ? '/index.html' : request;
     event.respondWith(
       fetch(request)
         .then((res) => {
@@ -69,7 +73,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(SHELL).then((c) => c.put(cacheKey, copy));
           return res;
         })
-        .catch(() => caches.match(cacheKey).then((r) => r || caches.match('/')))
+        .catch(() => caches.match(cacheKey).then((r) => r || caches.match('/index.html')))
     );
     return;
   }

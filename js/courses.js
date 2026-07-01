@@ -58,7 +58,7 @@ async function renderCoursesBrowser(){
           (c.country&&c.country!=='England'?'<span class="cc-tag" style="border-color:#c8d8e8;color:#2a4a6a;background:#f0f5fc;">'+c.country+'</span>':'')+
         '</div>'+
         '<div class="cc-stats">'+
-          '<div class="cc-stat"><div class="cc-stat-v">'+c.par+'</div><div class="cc-stat-l">Par</div></div>'+
+          '<div class="cc-stat"><div class="cc-stat-v">'+(c.par||'—')+'</div><div class="cc-stat-l">Par</div></div>'+
           '<div class="cc-stat"><div class="cc-stat-v">'+(c.yardage?c.yardage.toLocaleString():'—')+'</div><div class="cc-stat-l">Yards</div></div>'+
           '<div class="cc-stat"><div class="cc-stat-v">'+(c.rating||'—')+'</div><div class="cc-stat-l">Rating</div></div>'+
           '<div class="cc-stat"><div class="cc-stat-v">'+(c.slope||'—')+'</div><div class="cc-stat-l">Slope</div></div>'+

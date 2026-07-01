@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "icons": "node assets/gen-icons.mjs",
+    "pages": "node scripts/gen-course-pages.mjs",
     "build": "node scripts/build.mjs",
     "cap:sync": "npm run build && npx cap sync",
     "cap:ios": "npm run build && npx cap sync ios && npx cap open ios",
@@ -13,6 +14,7 @@
   },
   "dependencies": {
     "@sentry/browser": "^10.62.0",
+    "@vercel/speed-insights": "^2.0.0",
     "sharp": "^0.35.2"
   },
   "devDependencies": {

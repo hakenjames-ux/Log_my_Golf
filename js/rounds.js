@@ -44,7 +44,7 @@ async function searchCourses(q){
       }
       window._cc=r.data;
       dd.innerHTML=r.data.map(function(c){
-        return '<div class="csearch-opt" data-idx="'+c.id+'"><div class="copt-name">'+c.name+'</div><div class="copt-meta">'+c.location+' · Par '+c.par+' · '+c.holes+'H · Rating '+(c.rating||'—')+' · Slope '+(c.slope||'—')+'</div></div>';
+        return '<div class="csearch-opt" data-idx="'+c.id+'"><div class="copt-name">'+c.name+'</div><div class="copt-meta">'+c.location+' · Par '+(c.par||'—')+' · '+c.holes+'H · Rating '+(c.rating||'—')+' · Slope '+(c.slope||'—')+'</div></div>';
       }).join('');
       dd.classList.add('open');
     }catch(e){dd.innerHTML='<div class="csearch-opt" style="color:#aaa;cursor:default;">Search error</div>';}
