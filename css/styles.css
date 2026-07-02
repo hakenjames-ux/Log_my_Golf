@@ -148,7 +148,14 @@ body::after{
 .landing-feat-title{font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
 .landing-feat-desc{font-size:0.8rem;color:rgba(255,255,255,0.55);font-weight:300;line-height:1.4;}
 .landing-footer{position:relative;z-index:2;margin-top:32px;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.25);}
-@media(max-width:760px){.landing-features{display:none;}.landing-footer{display:none;}}
+.landing-pitch{position:relative;z-index:2;display:none;margin:14px auto 0;max-width:320px;text-align:center;font-size:0.85rem;line-height:1.55;color:rgba(255,255,255,0.55);}
+/* Mobile: hide the long feature list but KEEP a one-line pitch + the footer
+   (free · no ads · courses link) so cold visitors still get the value prop. */
+@media(max-width:760px){
+  .landing-features{display:none;}
+  .landing-pitch{display:block;}
+  .landing-footer{margin-top:20px;font-size:0.6rem;}
+}
 .auth-tabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:28px;gap:0;}
 .auth-tab{
   padding:10px 0;margin-right:28px;font-size:0.78rem;font-weight:600;
